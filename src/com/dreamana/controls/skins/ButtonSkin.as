@@ -11,8 +11,8 @@ package com.dreamana.controls.skins
 	public class ButtonSkin extends UISkin
 	{
 		//element
-		private var _back:Shape;
-		private var _face:Shape;
+		protected var _back:Shape;
+		protected var _face:Shape;
 		
 		//style
 		protected var _faceColor:int;

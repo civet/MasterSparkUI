@@ -1,10 +1,11 @@
 package com.dreamana.controls
 {	
+	import com.dreamana.controls.skins.ToggleButtonSkin;
 	import com.dreamana.gui.SkinnableComponent;
 	
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
-	import com.dreamana.controls.skins.ToggleButtonSkin;
+	
 	
 	public class Toggle extends SkinnableComponent
 	{
@@ -99,6 +100,17 @@ package com.dreamana.controls
 			}
 		}
 		
+		protected function changeState(state:String):void
+		{
+			_state = state;
+			_skin.state = state;
+		}
+		
+		protected function getSelectState():String
+		{
+			return _selected ? STATE_SELECTED : STATE_UNSELECTED;
+		}
+		
 		//--- Getter/setters ---
 		
 		override public function set enabled(value:Boolean):void
@@ -112,26 +124,15 @@ package com.dreamana.controls
 			
 			changeState( composite + "|" + getSelectState() );
 		}
-		
-		protected function changeState(state:String):void
-		{
-			_state = state;
-			_skin.state = state;
-		}
-		
+				
 		protected var _selected:Boolean;
-		protected function get selected():Boolean {
+		public function get selected():Boolean {
 			return _selected;
 		}
-		protected function set selected(value:Boolean):void {
+		public function set selected(value:Boolean):void {
 			_selected = value;
 			
 			changeState( _state + "|" + getSelectState() );
-		}
-		
-		protected function getSelectState():String
-		{
-			return _selected ? STATE_SELECTED : STATE_UNSELECTED;
 		}
 	}
 }

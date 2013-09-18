@@ -1,11 +1,12 @@
 package com.dreamana.controls
 {
+	import com.dreamana.controls.skins.TextInputSkin;
 	import com.dreamana.gui.SkinnableComponent;
 	
 	import flash.events.Event;
 	import flash.events.TextEvent;
 	import flash.text.TextField;
-	import com.dreamana.controls.skins.TextInputSkin;
+	
 	
 	[Event(name="textInput", type="flash.events.TextEvent")]
 	

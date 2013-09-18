@@ -11,8 +11,8 @@ package com.dreamana.controls.skins
 	public class ToggleButtonSkin extends UISkin
 	{
 		//element
-		private var _back:Shape;
-		private var _face:Shape;
+		protected var _back:Shape;
+		protected var _face:Shape;
 		
 		//style
 		protected var _faceColor:int;
@@ -45,7 +45,7 @@ package com.dreamana.controls.skins
 			_backFilters4 = [getShadow(2, true)];//over & selected
 			
 			
-			//children
+			//elements
 			_back = new Shape();
 			
 			_face = new Shape();
@@ -178,58 +178,6 @@ package com.dreamana.controls.skins
 						_face.filters = _faceFilters1;
 					}
 					break;
-				
-				/*
-				case Toggle.STATE_OVER:
-					g = _back.graphics;
-					g.clear();
-					fillRect(g, getRectangle(0,0,w,h), _backColor );
-					_back.filters = _backFilters3;
-					
-					g = _face.graphics;
-					g.clear();
-					fillRect(g, getRectangle(0,0,w-2,h-2), _faceColor );
-					_face.filters = _faceFilters3;
-					
-					break;
-				
-				case Toggle.STATE_DOWN:
-					g = _back.graphics;
-					g.clear();
-					fillRect(g, getRectangle(0,0,w,h), _backColor );
-					_back.filters = _backFilters2;
-					
-					g = _face.graphics;
-					g.clear();
-					fillRect(g, getRectangle(0,0,w-2,h-2),  _faceColor );
-					_face.filters = _faceFilters2;
-					break;
-				
-				case Toggle.STATE_DISABLED:
-					g = _back.graphics;
-					g.clear();
-					fillRect(g, getRectangle(0,0,w,h), 0xcccccc );//disable - gray
-					_back.filters = _backFilters1;
-					
-					g = _face.graphics;
-					g.clear();
-					fillRect(g, getRectangle(0,0,w-2,h-2), 0xeeeeee );//disable - gray
-					_face.filters = _faceFilters1;
-					break;
-				
-				case Toggle.STATE_NORMAL:
-					
-				default:
-					g = _back.graphics;
-					g.clear();
-					fillRect(g, getRectangle(0,0,w,h), _backColor );
-					_back.filters = _backFilters1;
-					
-					g = _face.graphics;
-					g.clear();
-					fillRect(g, getRectangle(0,0,w-2,h-2), _faceColor );
-					_face.filters = _faceFilters1;
-					break;*/
 			}
 		}
 		

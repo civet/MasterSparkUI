@@ -19,9 +19,10 @@ package
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			
-			this.addChild(new TestButton());
+			//this.addChild(new TestButton());
 			//this.addChild(new TestTextInput());
 			//this.addChild(new TestToggle());
+			this.addChild(new TestToggleGroup());
 		}
 	}
 }

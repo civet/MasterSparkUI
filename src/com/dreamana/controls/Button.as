@@ -1,10 +1,11 @@
 package com.dreamana.controls
 {	
+	import com.dreamana.controls.skins.ButtonSkin;
 	import com.dreamana.gui.SkinnableComponent;
 	
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
-	import com.dreamana.controls.skins.ButtonSkin;
+	
 	
 	public class Button extends SkinnableComponent
 	{
