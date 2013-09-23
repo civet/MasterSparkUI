@@ -6,6 +6,8 @@ package com.dreamana.controls
 
 	[Event(name="select", type="flash.events.Event")]
 	
+	[Event(name="change", type="flash.events.Event")]
+	
 	public class ToggleGroup extends EventDispatcher
 	{
 		protected var _items:Array = [];
@@ -35,11 +37,15 @@ package com.dreamana.controls
 		{
 			if(_selectedItem) _selectedItem.selected = false;
 			
+			var changed:Boolean = (_selectedItem != item);
+			
 			_selectedItem = item;
 			if(_selectedItem) _selectedItem.selected = true;
 			
 			//dispatch
 			this.dispatchEvent(new Event(Event.SELECT));
+			
+			if(changed) this.dispatchEvent(new Event(Event.CHANGE));
 		}
 		
 		//--- Event Handlers ---

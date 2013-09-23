@@ -26,7 +26,7 @@ package com.dreamana.controls
 			//default setting
 			_width = 100;
 			_height = 20;
-			_state = STATE_NORMAL;
+			_skinState = STATE_NORMAL;
 			_skinClass = TextInputSkin;
 			_text = "";
 			
@@ -90,8 +90,8 @@ package com.dreamana.controls
 			super.enabled = value;
 			
 			//enabled | disabled state
-			if(value) this.state = STATE_NORMAL;
-			else this.state = STATE_DISABLED;
+			if(value) changeState( STATE_NORMAL );
+			else changeState( STATE_DISABLED );
 		}
 		
 		public function get text():String

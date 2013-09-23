@@ -112,9 +112,11 @@ package com.dreamana.gui
 		
 		//--- Getter/Setters ---
 		
-		override public function set state(value:String):void
+		protected var _state:String;
+		
+		public function set state(value:String):void
 		{
-			super.state = value;
+			_state = value;
 			
 			invalidate();
 		}
@@ -153,6 +155,17 @@ package com.dreamana.gui
 		{
 			graphics.lineStyle();
 			graphics.beginFill(color, 1.0);
+			graphics.drawRect(rect.x, rect.y, rect.width, rect.height);
+			graphics.endFill();
+		}
+		
+		protected function fillRect32(graphics:Graphics, rect:Rectangle, color:uint=0xffffffff):void
+		{
+			var alpha:Number = (color >> 24 & 0xff) / 0xff;
+			var rgb:uint = color & 0x00ffffff;
+			
+			graphics.lineStyle();
+			graphics.beginFill(rgb, alpha);
 			graphics.drawRect(rect.x, rect.y, rect.width, rect.height);
 			graphics.endFill();
 		}

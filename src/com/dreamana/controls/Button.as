@@ -20,7 +20,7 @@ package com.dreamana.controls
 			//default setting
 			_width = 100;
 			_height = 20;
-			_state = STATE_NORMAL;
+			_skinState = STATE_NORMAL;
 			_skinClass = ButtonSkin;
 						
 			//view
@@ -73,7 +73,7 @@ package com.dreamana.controls
 			//up state
 			if(_enabled) changeState( STATE_NORMAL );
 		}
-		
+				
 		//--- Getter/setters ---
 		
 		override public function set enabled(value:Boolean):void
@@ -83,12 +83,6 @@ package com.dreamana.controls
 			//enabled(up) | disabled state
 			if(value) changeState( STATE_NORMAL );
 			else changeState( STATE_DISABLED );
-		}
-		
-		protected function changeState(state:String):void
-		{
-			_state = state;
-			_skin.state = state;
 		}
 	}
 }

@@ -9,13 +9,18 @@ package com.dreamana.controls
 	
 	public class Toggle extends SkinnableComponent
 	{
+		//mouse state
 		public static const STATE_NORMAL:String = "normal";
 		public static const STATE_OVER:String = "over";
 		public static const STATE_DOWN:String = "down";
 		public static const STATE_DISABLED:String = "disabled";
 		
-		public static const STATE_SELECTED:String = "selected";
-		public static const STATE_UNSELECTED:String = "unselected";
+		//selection
+		public static const SELECTED:String = "selected";
+		public static const UNSELECTED:String = "unselected";
+		
+		protected var _mouseState:String;
+		protected var _selected:Boolean;
 		
 		
 		public function Toggle()
@@ -23,7 +28,9 @@ package com.dreamana.controls
 			//default setting
 			_width = 100;
 			_height = 20;
-			_state = STATE_NORMAL;
+			_mouseState = STATE_NORMAL;
+			_selected = false;
+			_skinState = _mouseState + "|"+ ( _selected ? SELECTED : UNSELECTED );
 			_skinClass = ToggleButtonSkin;
 			
 			//view
@@ -53,7 +60,7 @@ package com.dreamana.controls
 			stage.addEventListener(MouseEvent.MOUSE_UP, onRelease);
 			
 			//down state			
-			changeState( STATE_DOWN + "|" + getSelectState() );
+			changeState( STATE_DOWN );
 		}
 		
 		protected function onRelease(event:MouseEvent):void
@@ -61,56 +68,51 @@ package com.dreamana.controls
 			stage.removeEventListener(MouseEvent.MOUSE_UP, onRelease);
 			
 			//up state (or disabled state)
-			var composite:String;
+			var mouseState:String;
 			if(_enabled) {
 				if( event.target == this ) {
-					//toggle
+					//auto toggle
 					_selected = !_selected;
 					
-					composite = STATE_OVER;
+					mouseState = STATE_OVER;
 				}
 				else {
-					composite = STATE_NORMAL;
+					mouseState = STATE_NORMAL;
 				}				
 			}
 			else {
-				composite = STATE_DISABLED ;
+				mouseState = STATE_DISABLED ;
 			}
 			
-			changeState( composite + "|" + getSelectState() );
+			changeState( mouseState );
 		}
 		
 		protected function onOver(event:MouseEvent):void
 		{
 			//down | over state
-			var composite:String;
 			if(_enabled) {
-				//composite = ( event.buttonDown ) ? STATE_DOWN : STATE_OVER;
-				composite = STATE_OVER;
-			}
-			
-			changeState( composite + "|" + getSelectState() );
+				//changeState( event.buttonDown ? STATE_DOWN : STATE_OVER );
+				changeState( STATE_OVER );
+			}			
 		}
 		
 		protected function onOut(event:MouseEvent):void
 		{
 			//up state
 			if(_enabled) {
-				changeState( STATE_NORMAL + "|" + getSelectState() );
+				changeState( STATE_NORMAL );
 			}
 		}
-		
-		protected function changeState(state:String):void
+				
+		override protected function changeState(mouseState:String):void
 		{
-			_state = state;
-			_skin.state = state;
+			_mouseState = mouseState;
+			
+			_skinState = _mouseState + "|" + ( _selected ? SELECTED : UNSELECTED );
+			
+			if(_skin) _skin.state = _skinState;
 		}
-		
-		protected function getSelectState():String
-		{
-			return _selected ? STATE_SELECTED : STATE_UNSELECTED;
-		}
-		
+				
 		//--- Getter/setters ---
 		
 		override public function set enabled(value:Boolean):void
@@ -118,21 +120,18 @@ package com.dreamana.controls
 			super.enabled = value;
 			
 			//enabled(up) | disabled state
-			var composite:String;
-			if(value) composite = STATE_NORMAL;
-			else composite = STATE_DISABLED;
-			
-			changeState( composite + "|" + getSelectState() );
+			if(value) changeState( STATE_NORMAL );
+			else changeState( STATE_DISABLED );
 		}
 				
-		protected var _selected:Boolean;
-		public function get selected():Boolean {
-			return _selected;
-		}
+		public function get selected():Boolean { return _selected; }
+		
 		public function set selected(value:Boolean):void {
 			_selected = value;
 			
-			changeState( _state + "|" + getSelectState() );
+			_skinState = _mouseState + "|" + ( _selected ? SELECTED : UNSELECTED );
+			
+			_skin.state = _skinState;
 		}
 	}
 }

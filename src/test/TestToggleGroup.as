@@ -42,13 +42,23 @@ package test
 			
 			group.addEventListener(Event.SELECT, onItemSelect);
 			group.selectedIndex = 0;
+			
+			group.addEventListener(Event.CHANGE, onItemChange);
 		}
 		
 		private function onItemSelect(event:Event):void
 		{
 			var group:ToggleGroup = event.currentTarget as ToggleGroup;
 			
-			trace(group.selectedIndex);
-		}	
+			//trace("selected: " + group.selectedIndex);
+		}
+		
+		private function onItemChange(event:Event):void
+		{
+			var group:ToggleGroup = event.currentTarget as ToggleGroup;
+			
+			trace("changed: " + group.selectedIndex);
+		}
+		
 	}
 }

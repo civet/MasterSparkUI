@@ -43,7 +43,7 @@ package com.dreamana.controls.skins
 			switch(mouseState)
 			{
 				case Toggle.STATE_OVER:
-					if(selectState == Toggle.STATE_UNSELECTED) {
+					if(selectState == Toggle.UNSELECTED) {
 						
 					}
 					else {
@@ -66,7 +66,7 @@ package com.dreamana.controls.skins
 					break;
 				
 				case Toggle.STATE_DOWN:
-					if(selectState == Toggle.STATE_UNSELECTED) {
+					if(selectState == Toggle.UNSELECTED) {
 						
 						
 					}
@@ -77,7 +77,7 @@ package com.dreamana.controls.skins
 					break;
 				
 				case Toggle.STATE_DISABLED:
-					if(selectState == Toggle.STATE_UNSELECTED) {
+					if(selectState == Toggle.UNSELECTED) {
 						g = _back.graphics;
 						g.clear();
 						
@@ -111,7 +111,7 @@ package com.dreamana.controls.skins
 				case Toggle.STATE_NORMAL:
 					
 				default:
-					if(selectState == Toggle.STATE_SELECTED) {
+					if(selectState == Toggle.SELECTED) {
 						g = _back.graphics;
 						g.clear();
 						

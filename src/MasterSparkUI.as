@@ -22,7 +22,8 @@ package
 			//this.addChild(new TestButton());
 			//this.addChild(new TestTextInput());
 			//this.addChild(new TestToggle());
-			this.addChild(new TestToggleGroup());
+			//this.addChild(new TestToggleGroup());
+			this.addChild(new TestSlider());
 		}
 	}
 }

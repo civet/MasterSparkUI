@@ -8,6 +8,7 @@ package com.dreamana.gui
 	{
 		protected var _skinClass:Class;
 		protected var _skin:UISkin;
+		protected var _skinState:String;
 		
 		
 		public function SkinnableComponent()
@@ -30,7 +31,7 @@ package com.dreamana.gui
 			_skin.setSize(_width, _height);
 			
 			//reset skin state
-			_skin.state = _state;
+			_skin.state = _skinState;
 			
 			//this.addChild(_skin);
 			//CHANGED: in order to simplify displaylist, add each part as child
@@ -84,14 +85,14 @@ package com.dreamana.gui
 			super.adjustSize();
 		}
 		
-		//--- Getter/Setters ---
-		
-		override public function set state(value:String):void
+		protected function changeState(value:String):void
 		{
-			super.state = value;
+			_skinState = value;
 			
-			if(_skin) _skin.state = value;
+			if(_skin) _skin.state = _skinState;
 		}
+				
+		//--- Getter/Setters ---
 		
 		public function get skin():UISkin { return _skin; }
 		public function set skin(value:UISkin):void {

@@ -1,19 +1,20 @@
 package test
 {
-	import com.dreamana.gui.*;
 	import com.dreamana.controls.*;
 	import com.dreamana.controls.skins.*;
+	import com.dreamana.gui.*;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	
-	public class TestToggle extends Sprite
+	
+	public class TestSlider extends Sprite
 	{
-		private var toggle:Toggle;
-		private var button:Button;
+		private var slider:Slider;
 		
-		public function TestToggle()
+		public function TestSlider()
 		{
 			stage? init() : this.addEventListener(Event.ADDED_TO_STAGE, init);
 		}
@@ -21,12 +22,15 @@ package test
 		private function init(event:Event=null):void
 		{
 			if(event) this.removeEventListener(event.type, init);
-			
+		
 			//start
-			toggle = new Toggle();
-			this.addChild(toggle);
-			toggle.addEventListener(MouseEvent.CLICK, onClick);
-									
+			slider = new Slider();
+			slider.addEventListener(Event.CHANGE, onSliderChange);
+			slider.orientation = Slider.VERTICAL;
+			slider.setSize(20, 300);
+			slider.value = 0.5;
+			this.addChild(slider);
+			
 			//toolbar
 			var btn:Button;
 			
@@ -55,7 +59,7 @@ package test
 			btn.addEventListener(MouseEvent.CLICK, onButtonClick);
 			
 			btn = new Button();
-			btn.name = "";
+			btn.name = "buttonSkinning";
 			btn.addChild(new Label("Textured"));
 			btn.x = 540;
 			btn.y = 90;
@@ -63,8 +67,8 @@ package test
 			btn.addEventListener(MouseEvent.CLICK, onButtonClick);
 			
 			btn = new Button();
-			btn.name = "";
-			btn.addChild(new Label("Hyperlink"));
+			btn.name = "buttonOrientation";
+			btn.addChild(new Label("Orientation"));
 			btn.x = 540;
 			btn.y = 120;
 			this.addChild(btn);
@@ -79,9 +83,10 @@ package test
 			btn.addEventListener(MouseEvent.CLICK, onButtonClick);
 		}
 		
-		private function onClick(event:MouseEvent):void
+		private function onSliderChange(event:Event):void
 		{
-			trace("click!");
+			//var slider:Slider = event.currentTarget as Slider;
+			trace(slider.value);
 		}
 		
 		private function onButtonClick(event:MouseEvent):void
@@ -89,21 +94,23 @@ package test
 			switch(event.currentTarget.name)
 			{
 				case "buttonResize":
-					toggle.setSize(100 + int(Math.random() * 200), 100 + int(Math.random() * 200));
+					if(slider.orientation == Slider.HORIZONTAL)
+						slider.setSize(100 + int(Math.random() * 100), 10  + int(Math.random() * 10) );
+					else
+						slider.setSize(10 + int(Math.random() * 10), 100  + int(Math.random() * 100) );
 					break;		
 				
 				case "buttonColoring":
-					toggle.skin.setStyle("border-color", 0xffffff * Math.random());
-					toggle.skin.setStyle("face-color", 0xffffff * Math.random());
+					slider.skin.setStyle("track-color", 0xffffff * Math.random());
+					slider.skin.setStyle("handle-color", 0xffffff * Math.random());
 					break;
 				
 				case "buttonEnabler":
-					toggle.enabled = !toggle.enabled;
+					slider.enabled = !slider.enabled;
 					break;
 				
 				case "buttonSkinning":
-					/*
-					var skin:ButtonTextureSkin = new ButtonTextureSkin();
+					/*var skin:ButtonTextureSkin = new ButtonTextureSkin();
 					
 					var clip0:UITextureClip = new UITextureClip(new Rectangle(2, 2, 40, 20));
 					var clip1:UITextureClip = new UITextureClip(new Rectangle(2, 46, 22, 22));
@@ -117,21 +124,23 @@ package test
 					//clip0.setData( texture );
 					//clip1.setData( texture );
 					
-					toggle.skin = skin;
+					button.skin = skin;
 					
 					var loader:Loader = new Loader();
 					clip0.loader = loader;
 					clip1.loader = loader;
 					
-					loader.load(new URLRequest("../assets/ui.png"));
-					*/
+					loader.load(new URLRequest("../assets/ui.png"));*/
 					break;
-								
+				
+				case "buttonOrientation":
+					slider.orientation = (slider.orientation == Slider.HORIZONTAL)? Slider.VERTICAL : Slider.HORIZONTAL;
+					break;
+				
 				case "buttonDefault":
-					toggle.skin = new ToggleButtonSkin();
+					slider.skin = new SliderSkin();
 					break;
 			}
 		}
-		
 	}
 }

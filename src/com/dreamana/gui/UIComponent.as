@@ -28,8 +28,7 @@ package com.dreamana.gui
 		protected var _sizeChanged:Boolean = false;
 		
 		protected var _enabled:Boolean = true;
-		protected var _state:String;
-		
+				
 		
 		public function UIComponent()
 		{
@@ -135,7 +134,6 @@ package com.dreamana.gui
 		/**
 		 * always place the component on a whole pixel.
 		 */
-		override public function get x():Number { return _x; }
 		override public function set x(value:Number):void {
 			_x = Math.round(value);
 			super.x = _x;
@@ -144,7 +142,6 @@ package com.dreamana.gui
 		/**
 		 * always place the component on a whole pixel.
 		 */
-		override public function get y():Number { return _y; }
 		override public function set y(value:Number):void {
 			_y = Math.round(value);
 			super.y = _y;
@@ -159,7 +156,7 @@ package com.dreamana.gui
 		
 		override public function get height():Number { return _height; }
 		override public function set height(value:Number):void {
-			_height = value
+			_height = value;
 			_sizeChanged = true;
 			invalidate();
 		}
@@ -171,11 +168,6 @@ package com.dreamana.gui
 			this.mouseEnabled = _enabled;
 			this.mouseChildren = _enabled;
 			this.tabEnabled = _enabled;
-		}
-		
-		public function get state():String { return _state; }
-		public function set state(value:String):void {
-			_state = value;
 		}
 	}
 }

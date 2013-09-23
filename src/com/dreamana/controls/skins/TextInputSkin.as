@@ -48,13 +48,13 @@ package com.dreamana.controls.skins
 		
 		override public function adjustSize():void
 		{
-			super.adjustSize();
-			
 			//set textfield size
 			_textfield.x = _padding.left;
 			_textfield.y = _padding.top;
 			_textfield.width = _width - _padding.left - _padding.right;
 			_textfield.height = _height - _padding.top - _padding.bottom;
+			
+			super.adjustSize();
 		}
 		
 		override public function redraw():void

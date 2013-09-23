@@ -70,14 +70,15 @@ package com.dreamana.controls.skins
 			var h:int = _height;
 			
 			if(_state) {
-				var mouseState:String = _state.substring(0, _state.indexOf("|"));
-				var selectState:String = _state.substr(_state.indexOf("|")+1);
+				var args:Array = _state.split("|");
+				var mouseState:String = args[0];
+				var selectState:String = args[1];
 			}
 				
 			switch(mouseState)
 			{
 				case Toggle.STATE_OVER:
-					if(selectState == Toggle.STATE_UNSELECTED) {
+					if(selectState == Toggle.UNSELECTED) {
 						g = _back.graphics;
 						g.clear();
 						fillRect(g, getRectangle(0,0,w,h), _backColor );
@@ -102,7 +103,7 @@ package com.dreamana.controls.skins
 					break;
 				
 				case Toggle.STATE_DOWN:
-					if(selectState == Toggle.STATE_UNSELECTED) {
+					if(selectState == Toggle.UNSELECTED) {
 						g = _back.graphics;
 						g.clear();
 						fillRect(g, getRectangle(0,0,w,h), _backColor );
@@ -128,7 +129,7 @@ package com.dreamana.controls.skins
 					break;
 				
 				case Toggle.STATE_DISABLED:
-					if(selectState == Toggle.STATE_UNSELECTED) {
+					if(selectState == Toggle.UNSELECTED) {
 						g = _back.graphics;
 						g.clear();
 						fillRect(g, getRectangle(0,0,w,h), 0xcccccc );//disable - gray
@@ -155,7 +156,7 @@ package com.dreamana.controls.skins
 				case Toggle.STATE_NORMAL:
 					
 				default:
-					if(selectState == Toggle.STATE_SELECTED) {
+					if(selectState == Toggle.SELECTED) {
 						g = _back.graphics;
 						g.clear();
 						fillRect(g, getRectangle(0,0,w,h), _backColor );
