@@ -20,43 +20,58 @@ package com.dreamana.controls
 		
 		protected var _value:Number = 0.0;
 		protected var _orientation:String;
-		protected var _mouseState:String;
 		
 		protected var _track:Sprite;
 		protected var _handle:Sprite;
-		
+		protected var _handleWidth:int;
+		protected var _handleHeight:int;
+				
 		
 		public function Slider()
 		{
 			//default setting
 			_width = 100;
 			_height = 20;
-			_mouseState = STATE_NORMAL;
+			_handleWidth = 20;
+			_handleHeight = 20;
 			_orientation = HORIZONTAL;
-			_skinState = _mouseState + "|" + _orientation;
+			_skinProps = {
+				state: STATE_NORMAL, 
+				orientation: _orientation,
+				handleWidth: _handleWidth,
+				handleHeight: _handleHeight
+			};
 			_skinClass = SliderSkin;
 			
 			//view
 			this.addChildren();
 		}
 		
+		/* HACK */		
 		override public function adjustSize():void
 		{
+			if(_orientation == Slider.HORIZONTAL) {
+				_handleWidth = _height;
+				_handleHeight = _height;
+			}
+			else {
+				_handleWidth = _width;
+				_handleHeight = _width;
+			}
+			_skinProps["handleWidth"] = _handleWidth;
+			_skinProps["handleHeight"] = _handleHeight;
+						
 			super.adjustSize();
 			
-			//BUG 1 FIXED
-			_skin.redraw();
-			positionHandle();
+			positionHandle();		
 		}
-		
+				
 		override protected function partAdded(partName:String, instance:Object):void
 		{
 			if(partName == "handle") {
 				_handle = instance as Sprite;
 				_handle.addEventListener(MouseEvent.MOUSE_DOWN, onDrag);
-			
-				//BUG 1 FIXED
-				_skin.redraw();
+				
 				positionHandle();
 			}			
 		}
@@ -66,6 +81,39 @@ package com.dreamana.controls
 			if(partName == "handle") {
 				_handle = instance as Sprite;
 				_handle.removeEventListener(MouseEvent.MOUSE_DOWN, onDrag);
+			}
+		}
+		
+		protected function changeState(state:String):void
+		{
+			_skinProps["state"] = state;
+			this.updateSkinProps();
+		}
+		
+		protected function changeOrientation(orientation:String):void
+		{
+			_skinProps["orientation"] = orientation;
+			this.updateSkinProps();
+		}
+		
+		protected function changeHandleSize():void
+		{
+			_skinProps["handleWidth"] = _handleWidth;
+			_skinProps["handleHeight"] = _handleHeight;
+			this.updateSkinProps();
+		}
+		
+		protected function positionHandle():void
+		{
+			if(!_handle) return;
+			
+			if(_orientation == HORIZONTAL) {
+				_handle.x = Math.round( (_width - _handleWidth) * value );
+				_handle.y = 0;
+			}
+			else {
+				_handle.x = 0;
+				_handle.y =  Math.round( (_height - _handleHeight) * value );
 			}
 		}
 		
@@ -79,12 +127,12 @@ package com.dreamana.controls
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, onSlide);
 			
 			if(_orientation == HORIZONTAL) {
-				_draggableBounce.width = _width - _handle.width;
+				_draggableBounce.width = _width - _handleWidth;
 				_draggableBounce.height = 0;
 			}
 			else {
 				_draggableBounce.width = 0;
-				_draggableBounce.height = _height - _handle.height;
+				_draggableBounce.height = _height - _handleHeight;
 			}
 			
 			_handle.startDrag(false, _draggableBounce);
@@ -102,40 +150,17 @@ package com.dreamana.controls
 		
 		protected function onSlide(event:MouseEvent):void
 		{
+			var v:Number = _value;
+			
 			if(_orientation == HORIZONTAL) {
-				_value = _handle.x / (_width - _handle.width);
+				_value = _handle.x / (_width - _handleWidth);
 			}
 			else {
-				_value = _handle.y / (_height - _handle.height);
+				_value = _handle.y / (_height - _handleHeight);
 			}
 			
 			//dispatch
-			this.dispatchEvent(new Event(Event.CHANGE));
-		}
-		
-		//--- Private Method ---
-		
-		override protected function changeState(mouseState:String):void
-		{
-			_mouseState = mouseState;
-			
-			_skinState = _mouseState + "|" + _orientation;
-			
-			if(_skin) _skin.state = _skinState;
-		}
-		
-		protected function positionHandle():void
-		{
-			if(!_handle) return;
-			
-			if(_orientation == HORIZONTAL) {
-				_handle.x = Math.round( (_width - _handle.width) * value );
-				_handle.y = 0;
-			}
-			else {
-				_handle.x = 0;
-				_handle.y =  Math.round( (_height - _handle.height) * value );
-			}
+			if(_value != v) this.dispatchEvent(new Event(Event.CHANGE));
 		}
 		
 		//--- Getter/setters ---
@@ -154,8 +179,6 @@ package com.dreamana.controls
 		{
 			_value = value;
 			
-			//set handle position
-			//BUG 1: the size of handle is 0 when init
 			positionHandle();
 		}
 				
@@ -166,14 +189,24 @@ package com.dreamana.controls
 			if(_orientation != value) {
 				_orientation = value;
 				
-				//swap
+				//swap width & height
 				var w:int = _width;
 				var h:int = _height;
-				this.setSize(h, w);
+				setSize(h, w);
 				
-				_skinState = _mouseState + "|" + _orientation;
-								
-				if(_skin) _skin.state = _skinState;
+				//update handle size
+				if(_orientation == Slider.HORIZONTAL) {
+					_handleWidth = _height;
+					_handleHeight = _height;
+				}
+				else {
+					_handleWidth = _width;
+					_handleHeight = _width;
+				}
+				changeHandleSize();
+				
+				//apply orientation
+				changeOrientation(_orientation);
 			}
 		}
 		

@@ -52,14 +52,14 @@ package com.dreamana.controls.skins
 			this.addPart("back", _back);
 			this.addPart("face", _face);
 		}
-		
+				
 		override public function redraw():void
 		{
 			var g:Graphics;
 			
 			var w:int = _width;
 			var h:int = _height;
-			var state:String = _state;
+			var state:String = _props["state"];
 			
 			switch(state)
 			{

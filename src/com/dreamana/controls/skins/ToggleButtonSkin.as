@@ -63,22 +63,17 @@ package com.dreamana.controls.skins
 		
 		override public function redraw():void
 		{
-			
 			var g:Graphics;
 			
 			var w:int = _width;
 			var h:int = _height;
-			
-			if(_state) {
-				var args:Array = _state.split("|");
-				var mouseState:String = args[0];
-				var selectState:String = args[1];
-			}
-				
-			switch(mouseState)
+			var state:String = _props["state"];
+			var selected:Boolean = _props["selected"];
+							
+			switch(state)
 			{
 				case Toggle.STATE_OVER:
-					if(selectState == Toggle.UNSELECTED) {
+					if( !selected ) {
 						g = _back.graphics;
 						g.clear();
 						fillRect(g, getRectangle(0,0,w,h), _backColor );
@@ -103,7 +98,7 @@ package com.dreamana.controls.skins
 					break;
 				
 				case Toggle.STATE_DOWN:
-					if(selectState == Toggle.UNSELECTED) {
+					if( !selected ) {
 						g = _back.graphics;
 						g.clear();
 						fillRect(g, getRectangle(0,0,w,h), _backColor );
@@ -129,7 +124,7 @@ package com.dreamana.controls.skins
 					break;
 				
 				case Toggle.STATE_DISABLED:
-					if(selectState == Toggle.UNSELECTED) {
+					if( !selected ) {
 						g = _back.graphics;
 						g.clear();
 						fillRect(g, getRectangle(0,0,w,h), 0xcccccc );//disable - gray
@@ -156,7 +151,7 @@ package com.dreamana.controls.skins
 				case Toggle.STATE_NORMAL:
 					
 				default:
-					if(selectState == Toggle.SELECTED) {
+					if( selected ) {
 						g = _back.graphics;
 						g.clear();
 						fillRect(g, getRectangle(0,0,w,h), _backColor );

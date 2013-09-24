@@ -7,15 +7,34 @@ package com.dreamana.gui
 	import flash.filters.DropShadowFilter;
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
-
+	
+	/**
+	 * Skin Class for MasterSpark GUI Component
+	 * 
+	 * only skin parts would be added to DisplayList.
+	 * inherited from UIComponent for using Deferred Rendering feature.
+	 * 
+	 * @author civet (dreamana.com)
+	 */	
 	public class UISkin extends UIComponent
 	{
-		
 		public function UISkin()
 		{
-			super();
 		}
 		
+		/* Initializing & drawing */
+		
+		protected var _props:Object;
+		
+		//public function setSize(w:int, h:int):void;
+				
+		public function setDrawingProps(props:Object):void
+		{
+			_props = props;
+			
+			invalidate();
+		}
+						
 		/* elements managing */
 		
 		public var elements:OrderedObject = new OrderedObject();
@@ -111,15 +130,6 @@ package com.dreamana.gui
 		}
 		
 		//--- Getter/Setters ---
-		
-		protected var _state:String;
-		
-		public function set state(value:String):void
-		{
-			_state = value;
-			
-			invalidate();
-		}
 		
 		//--- Utils ---
 		

@@ -59,7 +59,8 @@ package com.dreamana.controls.skins
 		
 		override public function redraw():void
 		{
-			var state:String = _state;
+			var state:String = _props["state"];
+			
 			switch(state)
 			{
 				case Button.STATE_OVER:
@@ -74,12 +75,11 @@ package com.dreamana.controls.skins
 					_textfield.setTextFormat(_formatDisabled);
 					break;
 				
-				case Button.STATE_NORMAL:
-					
+				case Button.STATE_NORMAL:				
 				default:
 					_textfield.setTextFormat(_formatNormal);
 					break;
-			}			
+			}
 		}
 		
 		override public function setStyle(style:String, value:Object):void
@@ -107,6 +107,9 @@ package com.dreamana.controls.skins
 				
 				case "text":
 					_textfield.text = value as String;
+					
+					_sizeChanged = true;
+					invalidate();
 					break;
 			}
 		}

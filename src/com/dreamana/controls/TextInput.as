@@ -26,7 +26,7 @@ package com.dreamana.controls
 			//default setting
 			_width = 100;
 			_height = 20;
-			_skinState = STATE_NORMAL;
+			_skinProps = {state: STATE_NORMAL};
 			_skinClass = TextInputSkin;
 			_text = "";
 			
@@ -51,7 +51,7 @@ package com.dreamana.controls
 		{
 			if(partName == "textfield") {
 				_textfield = instance as TextField;
-				
+								
 				_textfield.removeEventListener(TextEvent.TEXT_INPUT, onTextInput);
 			}
 		}
@@ -63,6 +63,13 @@ package com.dreamana.controls
 			for(var key:String in _textfieldProps) {
 				if(_textfield.hasOwnProperty(key)) _textfield[key] = _textfieldProps[key];
 			}
+		}
+		
+		protected function changeState(state:String):void
+		{
+			_skinProps["state"] = state;
+			
+			this.updateSkinProps();
 		}
 		
 		//--- PUBLIC METHODS ---

@@ -63,8 +63,8 @@ package test
 			btn.addEventListener(MouseEvent.CLICK, onButtonClick);
 			
 			btn = new Button();
-			btn.name = "";
-			btn.addChild(new Label("Hyperlink"));
+			btn.name = "buttonSelect";
+			btn.addChild(new Label("Select/Unselect"));
 			btn.x = 540;
 			btn.y = 120;
 			this.addChild(btn);
@@ -125,6 +125,10 @@ package test
 					
 					loader.load(new URLRequest("../assets/ui.png"));
 					*/
+					break;
+				
+				case "buttonSelect":
+					toggle.selected = !toggle.selected;
 					break;
 								
 				case "buttonDefault":

@@ -3,17 +3,24 @@ package com.dreamana.gui
 	import com.dreamana.utils.OrderedObject;
 	
 	import flash.display.DisplayObject;
-
+	
+	/**
+	 * Skinnable GUI Component
+	 * 
+	 * @author civet (dreamana.com)
+	 */	
 	public class SkinnableComponent extends UIComponent
 	{
-		protected var _skinClass:Class;
 		protected var _skin:UISkin;
-		protected var _skinState:String;
+		protected var _skinClass:Class;
+		protected var _skinProps:Object;
 		
 		
 		public function SkinnableComponent()
 		{
+			//set skin class and state
 			
+			//add skin
 		}
 		
 		protected function addChildren():void
@@ -30,8 +37,8 @@ package com.dreamana.gui
 			//reset skin size
 			_skin.setSize(_width, _height);
 			
-			//reset skin state
-			_skin.state = _skinState;
+			//reset skin drawing props
+			_skin.setDrawingProps(_skinProps);
 			
 			//this.addChild(_skin);
 			//CHANGED: in order to simplify displaylist, add each part as child
@@ -80,16 +87,14 @@ package com.dreamana.gui
 		
 		override public function adjustSize():void
 		{
-			_skin.setSize(_width, _height);
+			if(_skin) _skin.setSize(_width, _height);//deferred
 			
 			super.adjustSize();
 		}
 		
-		protected function changeState(value:String):void
-		{
-			_skinState = value;
-			
-			if(_skin) _skin.state = _skinState;
+		protected function updateSkinProps():void
+		{			
+			if(_skin) _skin.setDrawingProps( _skinProps );//deferred
 		}
 				
 		//--- Getter/Setters ---

@@ -43,15 +43,12 @@ package com.dreamana.controls.skins
 			
 			var w:int = _width;
 			var h:int = _height;
-			if(_state) {
-				var args:Array = _state.split("|");
-				var mouseState:String = args[0];
-				var orientation:String = args[1];
-			}
+			var state:String = _props["state"];
+			var orientation:String = _props["orientation"];
+			var handleWidth:int = _props["handleWidth"];
+			var handleHeight:int = _props["handleHeight"];
 			
-			var size:int = getHandleSize( orientation );
-			
-			switch(mouseState)
+			switch(state)
 			{
 				case Slider.STATE_NORMAL:
 					g = _track.graphics;
@@ -61,8 +58,8 @@ package com.dreamana.controls.skins
 										
 					g = _handle.graphics;
 					g.clear();
-					fillRect32(g, getRectangle(0, 0, size, size), 0x00 );
-					fillRect(g, getRectangle(1, 1, size -2, size -2), _handleColor );
+					fillRect32(g, getRectangle(0, 0, handleWidth, handleHeight), 0x00 );
+					fillRect(g, getRectangle(1, 1, handleWidth -2, handleHeight -2), _handleColor );
 					_handle.filters = _handleFilters;
 					break;
 				
@@ -74,18 +71,13 @@ package com.dreamana.controls.skins
 					
 					g = _handle.graphics;
 					g.clear();
-					fillRect32(g, getRectangle(0, 0, size, size), 0x00 );
-					fillRect(g, getRectangle(1, 1, size -2, size -2), 0xeeeeee );//disable - gray
+					fillRect32(g, getRectangle(0, 0, handleWidth, handleHeight), 0x00 );
+					fillRect(g, getRectangle(1, 1, handleWidth -2, handleHeight -2), 0xeeeeee );//disable - gray
 					_handle.filters = _handleFilters;
 					break;
 			}
 		}
-		
-		protected function getHandleSize(orientation:String):int
-		{
-			return (orientation == Slider.HORIZONTAL) ? _height : _width;
-		}
-		
+				
 		override public function setStyle(style:String, value:Object):void
 		{
 			switch(style) {

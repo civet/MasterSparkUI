@@ -70,7 +70,7 @@ package com.dreamana.controls.skins
 			
 			var w:int = _width;
 			var h:int = _height;
-			var state:String = _state;
+			var state:String = _props["state"];
 			switch(state)
 			{
 				case TextInput.STATE_DISABLED:

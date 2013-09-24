@@ -34,23 +34,28 @@ package com.dreamana.controls.skins
 			var w:int = _width;
 			var h:int = _height;
 			var size:int = _height -1;
-			
-			if(_state) {
-				var mouseState:String = _state.substring(0, _state.indexOf("|"));
-				var selectState:String = _state.substr(_state.indexOf("|")+1);
-			}
-			
-			switch(mouseState)
+			var state:String = _props["state"];
+			var selected:Boolean = _props["selected"];
+						
+			switch(state)
 			{
 				case Toggle.STATE_OVER:
-					if(selectState == Toggle.UNSELECTED) {
+					if( !selected ) {
+						g = _back.graphics;
+						g.clear();
+						g.beginFill(0xeeeeee, 1);
+						g.drawRect(0, 0, _width, _height);
 						
+						g.lineStyle(1, 0x666666);
+						g.beginFill(0xffffff);
+						g.drawRect(size/4, size/4, size/2, size/2);
+						g.endFill();
 					}
 					else {
 						g = _back.graphics;
 						g.clear();
 						
-						g.beginFill(0xccffff, 0);
+						g.beginFill(0xeeeeee, 1);
 						g.drawRect(0, 0, _width, _height);
 						
 						g.lineStyle(1, 0x666666);
@@ -66,18 +71,11 @@ package com.dreamana.controls.skins
 					break;
 				
 				case Toggle.STATE_DOWN:
-					if(selectState == Toggle.UNSELECTED) {
-						
-						
-					}
-					else {
-						
-						
-					}
+					
 					break;
 				
 				case Toggle.STATE_DISABLED:
-					if(selectState == Toggle.UNSELECTED) {
+					if( !selected ) {
 						g = _back.graphics;
 						g.clear();
 						
@@ -111,7 +109,7 @@ package com.dreamana.controls.skins
 				case Toggle.STATE_NORMAL:
 					
 				default:
-					if(selectState == Toggle.SELECTED) {
+					if( selected ) {
 						g = _back.graphics;
 						g.clear();
 						

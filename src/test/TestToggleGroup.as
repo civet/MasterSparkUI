@@ -6,10 +6,13 @@ package test
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	
 	
 	public class TestToggleGroup extends Sprite
 	{		
+		private var group:ToggleGroup;
+		
 		public function TestToggleGroup()
 		{
 			stage? init() : this.addEventListener(Event.ADDED_TO_STAGE, init);
@@ -20,7 +23,7 @@ package test
 			if(event) this.removeEventListener(event.type, init);
 			
 			//start
-			var group:ToggleGroup = new ToggleGroup();
+			group = new ToggleGroup();
 			
 			var item:Toggle;
 			var label:Label;
@@ -28,7 +31,7 @@ package test
 			for(var i:int=0; i < numItems; ++i)
 			{
 				item = new Toggle();
-				//item.skin = new CheckBoxSkin();
+				item.skin = new CheckBoxSkin();
 				item.x = i * 100;
 				
 				this.addChild(item);
@@ -44,6 +47,18 @@ package test
 			group.selectedIndex = 0;
 			
 			group.addEventListener(Event.CHANGE, onItemChange);
+			
+			
+			//toolbar
+			var btn:Button;
+			
+			btn = new Button();
+			btn.name = "buttonEnabler";
+			btn.addChild(new Label("Disabled/Enabled"));
+			btn.x = 540;
+			btn.y = 0;
+			this.addChild(btn);
+			btn.addEventListener(MouseEvent.CLICK, onButtonClick);
 		}
 		
 		private function onItemSelect(event:Event):void
@@ -60,5 +75,15 @@ package test
 			trace("changed: " + group.selectedIndex);
 		}
 		
+		private function onButtonClick(event:MouseEvent):void
+		{
+			switch(event.currentTarget.name)
+			{
+				case "buttonEnabler":
+					group.enabled = !group.enabled;
+					break;
+				
+			}
+		}
 	}
 }

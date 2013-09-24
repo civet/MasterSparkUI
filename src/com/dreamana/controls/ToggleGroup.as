@@ -59,24 +59,26 @@ package com.dreamana.controls
 		
 		protected var _selectedItem:Toggle;
 
-		public function get selectedItem():Toggle
-		{ 
-			return _selectedItem;
-		}
-		
-		public function set selectedItem(value:Toggle):void
-		{
+		public function get selectedItem():Toggle { return _selectedItem; }
+		public function set selectedItem(value:Toggle):void {
 			this.select( value );
 		}
 		
-		public function get selectedIndex():int
-		{
+		public function get selectedIndex():int {
 			return _items.indexOf( _selectedItem );
 		}
-
-		public function set selectedIndex(value:int):void
-		{
+		public function set selectedIndex(value:int):void {
 			this.select( _items[ value ] );
+		}
+		
+		protected var _enabled:Boolean = true;
+		
+		public function get enabled():Boolean { return _enabled; }
+		public function set enabled(value:Boolean):void {
+			_enabled = value;
+			
+			var i:int = _items.length;
+			while(i--) Toggle( _items[i] ).enabled = _enabled;
 		}
 	}
 }

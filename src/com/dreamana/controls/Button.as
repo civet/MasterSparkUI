@@ -20,7 +20,7 @@ package com.dreamana.controls
 			//default setting
 			_width = 100;
 			_height = 20;
-			_skinState = STATE_NORMAL;
+			_skinProps = {state: STATE_NORMAL};
 			_skinClass = ButtonSkin;
 						
 			//view
@@ -41,6 +41,13 @@ package com.dreamana.controls
 			this.removeEventListener(MouseEvent.ROLL_OVER, onOver);
 			this.removeEventListener(MouseEvent.ROLL_OUT, onOut);
 			this.buttonMode = false;
+		}
+		
+		protected function changeState(state:String):void
+		{
+			_skinProps["state"] = state;
+			
+			this.updateSkinProps();
 		}
 		
 		//--- Event Handlers ---

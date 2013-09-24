@@ -10,9 +10,10 @@ package com.dreamana.gui
 	
 	/**
 	 * Base Class of MasterSpark GUI Component
-	 * @author civet (dreamana.com)
 	 * 
-	 * based on MinimalComps' Component Class (https://github.com/minimalcomps) 
+	 * inspired by MinimalComps (https://github.com/minimalcomps)
+	 * 
+	 * @author civet (dreamana.com)
 	 */
 	public class UIComponent extends Sprite
 	{
@@ -68,11 +69,8 @@ package com.dreamana.gui
 		 */
 		public function setPosition(px:Number, py:Number):void
 		{
-			_x = Math.round(px);
-			_y = Math.round(py);
-			
-			super.x = _x;
-			super.x = _y;
+			super.x = Math.round(px);
+			super.y = Math.round(py);
 		}
 		
 		/**
@@ -135,16 +133,10 @@ package com.dreamana.gui
 		 * always place the component on a whole pixel.
 		 */
 		override public function set x(value:Number):void {
-			_x = Math.round(value);
-			super.x = _x;
+			super.x = Math.round(value);
 		}
-		
-		/**
-		 * always place the component on a whole pixel.
-		 */
 		override public function set y(value:Number):void {
-			_y = Math.round(value);
-			super.y = _y;
+			super.y = Math.round(value);
 		}
 		
 		override public function get width():Number { return _width; }
