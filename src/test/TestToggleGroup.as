@@ -31,7 +31,7 @@ package test
 			for(var i:int=0; i < numItems; ++i)
 			{
 				item = new Toggle();
-				item.skin = new CheckBoxSkin();
+				//item.skin = new CheckBoxSkin();
 				item.x = i * 100;
 				
 				this.addChild(item);
@@ -44,19 +44,47 @@ package test
 			}
 			
 			group.addEventListener(Event.SELECT, onItemSelect);
-			group.selectedIndex = 0;
-			
 			group.addEventListener(Event.CHANGE, onItemChange);
+			
+			group.multiselectable = false;
+			group.deselectable = true;
+			group.selectedIndex = 1;
 			
 			
 			//toolbar
 			var btn:Button;
+			var tgl:Toggle;
+			
+			tgl = new Toggle();
+			tgl.name = "buttonEnabler";
+			tgl.addChild(new Label("Disabled"));
+			tgl.x = 540;
+			tgl.y = 0;
+			this.addChild(tgl);
+			tgl.addEventListener(MouseEvent.CLICK, onButtonClick);
+			
+			tgl = new Toggle();
+			tgl.name = "buttonDeselect";
+			tgl.addChild(new Label("Deselectable"));
+			tgl.x = 540;
+			tgl.y = 30;
+			this.addChild(tgl);
+			tgl.addEventListener(MouseEvent.CLICK, onButtonClick);
+			tgl.selected = true;
+			
+			tgl = new Toggle();
+			tgl.name = "buttonMultiselect";
+			tgl.addChild(new Label("MultiSelectable"));
+			tgl.x = 540;
+			tgl.y = 60;
+			this.addChild(tgl);
+			tgl.addEventListener(MouseEvent.CLICK, onButtonClick);
 			
 			btn = new Button();
-			btn.name = "buttonEnabler";
-			btn.addChild(new Label("Disabled/Enabled"));
+			btn.name = "buttonSkin";
+			btn.addChild(new Label("Change Skin"));
 			btn.x = 540;
-			btn.y = 0;
+			btn.y = 90;
 			this.addChild(btn);
 			btn.addEventListener(MouseEvent.CLICK, onButtonClick);
 		}
@@ -65,24 +93,48 @@ package test
 		{
 			var group:ToggleGroup = event.currentTarget as ToggleGroup;
 			
-			//trace("selected: " + group.selectedIndex);
+			trace("selectedIndex: " + group.selectedIndex
+				+ ", selectedIndices: " + group.selectedIndices);
 		}
 		
 		private function onItemChange(event:Event):void
 		{
 			var group:ToggleGroup = event.currentTarget as ToggleGroup;
 			
-			trace("changed: " + group.selectedIndex);
+			trace("changed to: " + group.selectedIndex);
 		}
 		
 		private function onButtonClick(event:MouseEvent):void
 		{
+			var target:Object = event.currentTarget;
+			
 			switch(event.currentTarget.name)
 			{
 				case "buttonEnabler":
-					group.enabled = !group.enabled;
+					group.enabled = !Toggle(target).selected;
 					break;
 				
+				case "buttonDeselect":
+					group.deselectable = Toggle(target).selected;
+					break;
+				
+				case "buttonMultiselect":
+					group.multiselectable = Toggle(target).selected;
+					break;
+				
+				case "buttonSkin":
+					var numItems:int = group.numItems;
+					for(var i:int=0; i < numItems; ++i)
+					{
+						var item:Toggle = group.getItem(i);
+						if(item.skin is ToggleButtonSkin) {
+							item.skin = new CheckBoxSkin();
+						}
+						else {
+							item.skin = new ToggleButtonSkin();
+						}
+					}
+					break;
 			}
 		}
 	}

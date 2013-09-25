@@ -77,8 +77,8 @@ package com.dreamana.controls
 			if(_enabled) changeState( (event.target == this)? STATE_OVER : STATE_NORMAL );
 			else changeState( STATE_DISABLED );
 			
-			//auto toggle
-			if(_enabled && event.target == this)
+			//toggle
+			if(_enabled && event.target == this && toggleEnabled == true)
 			{
 				_selected = !_selected;
 				
@@ -121,5 +121,7 @@ package com.dreamana.controls
 			
 			changeSelection( _selected );
 		}
+		
+		public var toggleEnabled:Boolean = true;
 	}
 }

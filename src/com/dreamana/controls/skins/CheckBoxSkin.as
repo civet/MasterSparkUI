@@ -12,9 +12,17 @@ package com.dreamana.controls.skins
 		protected var _back:Shape;
 		protected var _face:Shape;
 		
+		//style
+		protected var _boxSize:int;
+		protected var _overColor:int;
+		
 		
 		public function CheckBoxSkin()
 		{
+			//default setting
+			_boxSize = 19;
+			_overColor = 0xeeeeee;
+			
 			//elements
 			_back = new Shape();
 			
@@ -33,17 +41,18 @@ package com.dreamana.controls.skins
 			
 			var w:int = _width;
 			var h:int = _height;
-			var size:int = _height -1;
+			var size:int = _boxSize;
 			var state:String = _props["state"];
 			var selected:Boolean = _props["selected"];
-						
+			
+			
 			switch(state)
 			{
 				case Toggle.STATE_OVER:
 					if( !selected ) {
 						g = _back.graphics;
 						g.clear();
-						g.beginFill(0xeeeeee, 1);
+						g.beginFill(_overColor, 1);
 						g.drawRect(0, 0, _width, _height);
 						
 						g.lineStyle(1, 0x666666);
@@ -55,7 +64,7 @@ package com.dreamana.controls.skins
 						g = _back.graphics;
 						g.clear();
 						
-						g.beginFill(0xeeeeee, 1);
+						g.beginFill(_overColor, 1);
 						g.drawRect(0, 0, _width, _height);
 						
 						g.lineStyle(1, 0x666666);
@@ -137,6 +146,21 @@ package com.dreamana.controls.skins
 						g.drawRect(size/4, size/4, size/2, size/2);
 						g.endFill();
 					}
+					break;
+			}
+		}
+		
+		override public function setStyle(style:String, value:Object):void
+		{
+			switch(style) {
+				case "box-size":
+					_boxSize = value as Number;
+					invalidate();
+					break;
+				
+				case "over-color":
+					_overColor = value as Number;
+					invalidate();
 					break;
 			}
 		}

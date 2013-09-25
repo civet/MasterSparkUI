@@ -26,7 +26,9 @@ package test
 			toggle = new Toggle();
 			this.addChild(toggle);
 			toggle.addEventListener(MouseEvent.CLICK, onClick);
-									
+			
+			toggle.addChild(new Label("Toggle", null, 30));
+			
 			//toolbar
 			var btn:Button;
 			
@@ -75,6 +77,14 @@ package test
 			btn.addChild(new Label("Default"));
 			btn.x = 540;
 			btn.y = 150;
+			this.addChild(btn);
+			btn.addEventListener(MouseEvent.CLICK, onButtonClick);
+			
+			btn = new Button();
+			btn.name = "buttonSkin";
+			btn.addChild(new Label("Change Skin"));
+			btn.x = 540;
+			btn.y = 180;
 			this.addChild(btn);
 			btn.addEventListener(MouseEvent.CLICK, onButtonClick);
 		}
@@ -133,6 +143,15 @@ package test
 								
 				case "buttonDefault":
 					toggle.skin = new ToggleButtonSkin();
+					break;
+				
+				case "buttonSkin":
+					if(toggle.skin is ToggleButtonSkin) {
+						toggle.skin = new CheckBoxSkin();
+					}
+					else {
+						toggle.skin = new ToggleButtonSkin();
+					}
 					break;
 			}
 		}

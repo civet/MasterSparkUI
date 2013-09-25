@@ -4,10 +4,13 @@ package test
 	import com.dreamana.controls.skins.*;
 	import com.dreamana.gui.*;
 	
+	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
+	import flash.geom.Rectangle;
+	import flash.net.URLRequest;
 	
 	
 	public class TestSlider extends Sprite
@@ -29,6 +32,8 @@ package test
 			slider.orientation = Slider.VERTICAL;
 			slider.setSize(20, 300);
 			slider.value = 0.5;
+			slider.percent = 0.25;
+			slider.trackClickEnabled = false;
 			this.addChild(slider);
 			
 			//toolbar
@@ -81,6 +86,22 @@ package test
 			btn.y = 150;
 			this.addChild(btn);
 			btn.addEventListener(MouseEvent.CLICK, onButtonClick);
+			
+			btn = new Button();
+			btn.name = "buttonPercent";
+			btn.addChild(new Label("Percent"));
+			btn.x = 540;
+			btn.y = 180;
+			this.addChild(btn);
+			btn.addEventListener(MouseEvent.CLICK, onButtonClick);
+			
+			btn = new Button();
+			btn.name = "buttonTrackClick";
+			btn.addChild(new Label("TrackClick"));
+			btn.x = 540;
+			btn.y = 210;
+			this.addChild(btn);
+			btn.addEventListener(MouseEvent.CLICK, onButtonClick);
 		}
 		
 		private function onSliderChange(event:Event):void
@@ -95,9 +116,9 @@ package test
 			{
 				case "buttonResize":
 					if(slider.orientation == Slider.HORIZONTAL)
-						slider.setSize(100 + int(Math.random() * 100), 10  + int(Math.random() * 10) );
+						slider.setSize(100 + int(Math.random() * 400), 10  + int(Math.random() * 40) );
 					else
-						slider.setSize(10 + int(Math.random() * 10), 100  + int(Math.random() * 100) );
+						slider.setSize(10 + int(Math.random() * 40), 100 + int(Math.random() * 400) );
 					break;		
 				
 				case "buttonColoring":
@@ -110,27 +131,27 @@ package test
 					break;
 				
 				case "buttonSkinning":
-					/*var skin:ButtonTextureSkin = new ButtonTextureSkin();
+					var skin:SliderTextureSkin = new SliderTextureSkin();
 					
 					var clip0:UITextureClip = new UITextureClip(new Rectangle(2, 2, 40, 20));
 					var clip1:UITextureClip = new UITextureClip(new Rectangle(2, 46, 22, 22));
 					
-					skin.setStyle("normal-9grid", new Rectangle(5, 5, 22-10, 22-10));
-					skin.setStyleAsync("normal-image", clip0);
-					skin.setStyle("down-9grid", new Rectangle(5, 5, 22-10, 22-10));
-					skin.setStyleAsync("down-image", clip1);
+					skin.setStyle("track-9grid", new Rectangle(5, 5, 40-10, 20-10));
+					skin.setStyleAsync("track-image", clip0);
+					skin.setStyle("handle-9grid", new Rectangle(5, 5, 22-10, 22-10));
+					skin.setStyleAsync("handle-image", clip1);
 					
 					//var texture:BitmapData = new ImageUI().bitmapData;
 					//clip0.setData( texture );
 					//clip1.setData( texture );
 					
-					button.skin = skin;
+					slider.skin = skin;
 					
 					var loader:Loader = new Loader();
 					clip0.loader = loader;
 					clip1.loader = loader;
 					
-					loader.load(new URLRequest("../assets/ui.png"));*/
+					loader.load(new URLRequest("../assets/ui.png"));
 					break;
 				
 				case "buttonOrientation":
@@ -139,6 +160,14 @@ package test
 				
 				case "buttonDefault":
 					slider.skin = new SliderSkin();
+					break;
+				
+				case "buttonPercent":
+					slider.percent = Math.random();
+					break;
+				
+				case "buttonTrackClick":
+					slider.trackClickEnabled = !slider.trackClickEnabled;
 					break;
 			}
 		}

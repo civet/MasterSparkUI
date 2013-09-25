@@ -19,13 +19,15 @@ package com.dreamana.controls
 		public static const VERTICAL:String = "vertical";
 		
 		protected var _value:Number = 0.0;
-		protected var _orientation:String;
+		protected var _percent:Number = 0.0;
 		
 		protected var _track:Sprite;
 		protected var _handle:Sprite;
+		
+		protected var _orientation:String;
 		protected var _handleWidth:int;
 		protected var _handleHeight:int;
-				
+		
 		
 		public function Slider()
 		{
@@ -42,7 +44,7 @@ package com.dreamana.controls
 				handleHeight: _handleHeight
 			};
 			_skinClass = SliderSkin;
-			
+						
 			//view
 			this.addChildren();
 		}
@@ -50,20 +52,30 @@ package com.dreamana.controls
 		/* HACK */		
 		override public function adjustSize():void
 		{
+			//calculate handle size
+			var minLength:int;
+			var length:int, thickness:int;
 			if(_orientation == Slider.HORIZONTAL) {
-				_handleWidth = _height;
-				_handleHeight = _height;
+				
+				thickness = _height;
+				minLength = _height;
+				length = Math.max(minLength, _width * _percent);
+				
+				changeHandleSize(length, thickness, false);
 			}
 			else {
-				_handleWidth = _width;
-				_handleHeight = _width;
+				
+				thickness = _width;
+				minLength = _width;
+				length = Math.max(minLength, _height * _percent);
+				
+				changeHandleSize(thickness, length, false);
 			}
-			_skinProps["handleWidth"] = _handleWidth;
-			_skinProps["handleHeight"] = _handleHeight;
-						
-			super.adjustSize();
 			
-			positionHandle();		
+			//reset handle position
+			positionHandle();
+			
+			super.adjustSize();
 		}
 				
 		override protected function partAdded(partName:String, instance:Object):void
@@ -72,8 +84,13 @@ package com.dreamana.controls
 				_handle = instance as Sprite;
 				_handle.addEventListener(MouseEvent.MOUSE_DOWN, onDrag);
 				
+				//set handle position
 				positionHandle();
-			}			
+			}
+			else if(partName == "track") {
+				_track = instance as Sprite;
+				if(_trackClickEnabled) _track.addEventListener(MouseEvent.MOUSE_DOWN, onTrackClick);
+			}
 		}
 		
 		override protected function partRemoved(partName:String, instance:Object):void
@@ -81,6 +98,10 @@ package com.dreamana.controls
 			if(partName == "handle") {
 				_handle = instance as Sprite;
 				_handle.removeEventListener(MouseEvent.MOUSE_DOWN, onDrag);
+			}
+			else if(partName == "track") {
+				_track = instance as Sprite;
+				_track.removeEventListener(MouseEvent.MOUSE_DOWN, onTrackClick);
 			}
 		}
 		
@@ -96,11 +117,15 @@ package com.dreamana.controls
 			this.updateSkinProps();
 		}
 		
-		protected function changeHandleSize():void
+		protected function changeHandleSize(w:int, h:int, sync:Boolean=true):void
 		{
-			_skinProps["handleWidth"] = _handleWidth;
-			_skinProps["handleHeight"] = _handleHeight;
-			this.updateSkinProps();
+			_handleWidth = w;
+			_handleHeight = h;
+			
+			_skinProps["handleWidth"] = w;
+			_skinProps["handleHeight"] = h;
+			
+			if(sync) this.updateSkinProps();
 		}
 		
 		protected function positionHandle():void
@@ -163,6 +188,30 @@ package com.dreamana.controls
 			if(_value != v) this.dispatchEvent(new Event(Event.CHANGE));
 		}
 		
+		protected function onTrackClick(event:MouseEvent):void
+		{
+			var v:Number = _value;
+			
+			var mx:int = event.localX;
+			var my:int = event.localY;
+						
+			if(_orientation == HORIZONTAL) {
+				var px:Number = Math.max(Math.min(mx - _handleWidth * .5, _width - _handleWidth), 0);
+				_handle.x = Math.round(px);
+				_value = _handle.x / (_width - _handleWidth);
+			}
+			else {
+				var py:Number = Math.max(Math.min(my - _handleHeight * .5, _height - _handleHeight), 0);
+				_handle.y = Math.round(py);
+				_value = _handle.y / (_height - _handleHeight);
+			}
+			
+			//dispatch
+			if(_value != v) this.dispatchEvent(new Event(Event.CHANGE));
+			
+			//onDrag(null);
+		}
+		
 		//--- Getter/setters ---
 		
 		override public function set enabled(value:Boolean):void
@@ -179,7 +228,20 @@ package com.dreamana.controls
 		{
 			_value = value;
 			
+			//set handle position
 			positionHandle();
+		}
+		
+		public function get percent():Number { return _percent; }
+		public function set percent(value:Number):void {
+			_percent = value;
+			
+			//deferred
+			//_sizeChanged = true;
+			//this.invalidate();
+			
+			//directly
+			this.adjustSize();	
 		}
 				
 		public function get orientation():String { return _orientation; }
@@ -190,25 +252,32 @@ package com.dreamana.controls
 				_orientation = value;
 				
 				//swap width & height
-				var w:int = _width;
-				var h:int = _height;
+				var w:int, h:int;
+				w = _width;
+				h = _height;
 				setSize(h, w);
 				
-				//update handle size
-				if(_orientation == Slider.HORIZONTAL) {
-					_handleWidth = _height;
-					_handleHeight = _height;
-				}
-				else {
-					_handleWidth = _width;
-					_handleHeight = _width;
-				}
-				changeHandleSize();
+				//swap width & height of handle
+				w = _handleWidth;
+				h = _handleHeight;
+				changeHandleSize(h, w);
 				
-				//apply orientation
+				//new orientation
 				changeOrientation(_orientation);
 			}
 		}
 		
+		protected var _trackClickEnabled:Boolean;
+		
+		public function get trackClickEnabled():Boolean { return _trackClickEnabled; }
+		public function set trackClickEnabled(value:Boolean):void
+		{
+			_trackClickEnabled = value;
+			
+			if(_track && _trackClickEnabled)
+				_track.addEventListener(MouseEvent.MOUSE_DOWN, onTrackClick);
+			else 
+				_track.removeEventListener(MouseEvent.MOUSE_DOWN, onTrackClick);
+		}
 	}
 }
