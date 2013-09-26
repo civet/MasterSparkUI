@@ -1,12 +1,15 @@
 package test
 {
-	import com.dreamana.gui.*;
 	import com.dreamana.controls.*;
 	import com.dreamana.controls.skins.*;
+	import com.dreamana.gui.*;
 	
+	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.geom.Rectangle;
+	import flash.net.URLRequest;
 	
 	public class TestToggle extends Sprite
 	{
@@ -57,7 +60,7 @@ package test
 			btn.addEventListener(MouseEvent.CLICK, onButtonClick);
 			
 			btn = new Button();
-			btn.name = "";
+			btn.name = "buttonSkinning";
 			btn.addChild(new Label("Textured"));
 			btn.x = 540;
 			btn.y = 90;
@@ -81,7 +84,7 @@ package test
 			btn.addEventListener(MouseEvent.CLICK, onButtonClick);
 			
 			btn = new Button();
-			btn.name = "buttonSkin";
+			btn.name = "buttonChangeSkin";
 			btn.addChild(new Label("Change Skin"));
 			btn.x = 540;
 			btn.y = 180;
@@ -112,13 +115,12 @@ package test
 					break;
 				
 				case "buttonSkinning":
-					/*
-					var skin:ButtonTextureSkin = new ButtonTextureSkin();
+					var skin:ToggleButtonTextureSkin = new ToggleButtonTextureSkin();
 					
 					var clip0:UITextureClip = new UITextureClip(new Rectangle(2, 2, 40, 20));
 					var clip1:UITextureClip = new UITextureClip(new Rectangle(2, 46, 22, 22));
 					
-					skin.setStyle("normal-9grid", new Rectangle(5, 5, 22-10, 22-10));
+					skin.setStyle("normal-9grid", new Rectangle(5, 5, 40-10, 20-10));
 					skin.setStyleAsync("normal-image", clip0);
 					skin.setStyle("down-9grid", new Rectangle(5, 5, 22-10, 22-10));
 					skin.setStyleAsync("down-image", clip1);
@@ -134,7 +136,7 @@ package test
 					clip1.loader = loader;
 					
 					loader.load(new URLRequest("../assets/ui.png"));
-					*/
+					
 					break;
 				
 				case "buttonSelect":
@@ -145,7 +147,7 @@ package test
 					toggle.skin = new ToggleButtonSkin();
 					break;
 				
-				case "buttonSkin":
+				case "buttonChangeSkin":
 					if(toggle.skin is ToggleButtonSkin) {
 						toggle.skin = new CheckBoxSkin();
 					}

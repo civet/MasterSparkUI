@@ -51,29 +51,17 @@ package com.dreamana.controls.skins
 			var handleHeight:int = _props["handleHeight"];
 			
 			if(_trackTexture) {
-				if(_trackScale9Grid) {
-					g = _track.graphics;
-					g.clear();
-					fill9Grid(g, _trackTexture, getRectangle(0,0,w,h), _trackScale9Grid, false );
-				}
-				else {
-					g = _track.graphics;
-					g.clear();
-					fillBitmap(g, _trackTexture, getRectangle(0,0,w,h) );
-				}
+				g = _track.graphics;
+				g.clear();
+				if(_trackScale9Grid) fill9Grid(g, _trackTexture, getRectangle(0,0,w,h), _trackScale9Grid, false );
+				else fillBitmap(g, _trackTexture, getRectangle(0,0,w,h) );
 			}
 			
 			if(_handleTexture) {
-				if(_handleScale9Grid) {
-					g = _handle.graphics;
-					g.clear();
-					fill9Grid(g, _handleTexture, getRectangle(0, 0, handleWidth, handleHeight), _handleScale9Grid, false );
-				}
-				else {
-					g = _handle.graphics;
-					g.clear();
-					fillBitmap(g, _handleTexture, getRectangle(0, 0, handleWidth, handleHeight) );
-				}
+				g = _handle.graphics;
+				g.clear();
+				if(_handleScale9Grid) fill9Grid(g, _handleTexture, getRectangle(0, 0, handleWidth, handleHeight), _handleScale9Grid, false );
+				else fillBitmap(g, _handleTexture, getRectangle(0, 0, handleWidth, handleHeight) );
 			}
 			
 			switch(state)

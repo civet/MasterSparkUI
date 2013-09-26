@@ -101,10 +101,9 @@ package test
 					var skin:TextInputTextureSkin = new TextInputTextureSkin();
 					
 					var clip0:UITextureClip = new UITextureClip(new Rectangle(2, 2, 40, 20));
-					var clip1:UITextureClip = new UITextureClip(new Rectangle(2, 46, 22, 22));
 					
-					skin.setStyle("background-9grid", new Rectangle(5, 5, 22-10, 22-10));
-					skin.setStyleAsync("background-image", clip1);
+					skin.setStyle("background-9grid", new Rectangle(5, 5, 40-10, 20-10));
+					skin.setStyleAsync("background-image", clip0);
 					
 					skin.setStyle("padding", 4);
 					
@@ -112,7 +111,6 @@ package test
 										
 					var loader:Loader = new Loader();
 					clip0.loader = loader;
-					clip1.loader = loader;
 					
 					loader.load(new URLRequest("../assets/ui.png"));
 					break;

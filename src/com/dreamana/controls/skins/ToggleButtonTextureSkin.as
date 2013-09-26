@@ -1,17 +1,15 @@
 package com.dreamana.controls.skins
 {
+	import com.dreamana.controls.Toggle;
 	import com.dreamana.gui.UISkin;
-	import com.dreamana.controls.Button;
 	
 	import flash.display.BitmapData;
 	import flash.display.Graphics;
 	import flash.display.Shape;
 	import flash.filters.ColorMatrixFilter;
-	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	
-
-	public class ButtonTextureSkin extends UISkin
+	public class ToggleButtonTextureSkin extends UISkin
 	{
 		//element
 		protected var _face:Shape;
@@ -25,7 +23,7 @@ package com.dreamana.controls.skins
 		protected var _faceFilters1:Array;
 		
 		
-		public function ButtonTextureSkin()
+		public function ToggleButtonTextureSkin()
 		{
 			//default setting
 			_faceFilters0 = [];
@@ -34,53 +32,46 @@ package com.dreamana.controls.skins
 			//elements
 			_face = new Shape();
 			
-			//this.addChild(_face);
-			
+			//elementList
 			this.addPart("face", _face);
 		}
 		
 		override public function redraw():void
 		{		
-			if(!_normalTexture) return;
-			if(!_downTexture) return;
-			
 			var g:Graphics;
-			
+						
 			var w:int = _width;
 			var h:int = _height;
 			var state:String = _props["state"];
+			var selected:Boolean = _props["selected"];
+			
+			if( !selected ) {
+				if(_normalTexture) {
+					g = _face.graphics;
+					g.clear();
+					if(_normalScale9Grid) fill9Grid( g, _normalTexture, getRectangle(0,0,w,h), _normalScale9Grid, false);
+					else fillBitmap(g, _normalTexture, getRectangle(0,0,w,h) );
+				}
+			}
+			else {
+				if(_downTexture) {
+					g = _face.graphics;
+					g.clear();
+					if(_downScale9Grid) fill9Grid( g, _downTexture, getRectangle(0,0,w,h), _downScale9Grid, false);
+					else fillBitmap(g, _downTexture, getRectangle(0,0,w,h) );
+				}
+			}
 			
 			switch(state)
 			{
-				case Button.STATE_DOWN:
-					if(_downTexture) {
-						g = _face.graphics;
-						g.clear();
-						if(_downScale9Grid) fill9Grid( g, _downTexture, getRectangle(0,0,w,h), _downScale9Grid, false);
-						else fillBitmap(g, _downTexture, getRectangle(0,0,w,h) );
-					}			
-					_face.filters = _faceFilters0;
-					break;
-				
-				case Button.STATE_DISABLED:
-					if(_normalTexture) {
-						g = _face.graphics;
-						g.clear();
-						if(_normalScale9Grid) fill9Grid( g, _normalTexture, getRectangle(0,0,w,h), _normalScale9Grid, false);
-						else fillBitmap(g, _normalTexture, getRectangle(0,0,w,h) );
-					}
+				case Toggle.STATE_DISABLED:
 					_face.filters = _faceFilters1;
 					break;
 				
-				case Button.STATE_NORMAL:
-				case Button.STATE_OVER:
+				case Toggle.STATE_NORMAL:
+				case Toggle.STATE_OVER:
+				case Toggle.STATE_DOWN:
 				default:
-					if(_normalTexture) {
-						g = _face.graphics;
-						g.clear();
-						if(_normalScale9Grid) fill9Grid( g, _normalTexture, getRectangle(0,0,w,h), _normalScale9Grid, false);
-						else fillBitmap(g, _normalTexture, getRectangle(0,0,w,h) );
-					}
 					_face.filters = _faceFilters0;
 					break;
 			}
@@ -119,6 +110,5 @@ package com.dreamana.controls.skins
 					break;
 			}
 		}
-		
 	}
 }

@@ -64,42 +64,27 @@ package com.dreamana.controls.skins
 		
 		override public function redraw():void
 		{
-			if(!_backTexture) return;
-			
 			var g:Graphics;
 			
 			var w:int = _width;
 			var h:int = _height;
 			var state:String = _props["state"];
+			
+			if(_backTexture) {
+				g = _back.graphics;
+				g.clear();
+				if(_backScale9Grid) fill9Grid( g, _backTexture, getRectangle(0,0,w,h), _backScale9Grid, false);
+				else fillBitmap(g, _backTexture, getRectangle(0,0,w,h) );
+			}
+			
 			switch(state)
 			{
 				case TextInput.STATE_DISABLED:
-					if( _backScale9Grid ) {
-						g = _back.graphics;
-						g.clear();
-						fill9Grid( g, _backTexture, getRectangle(0,0,w,h), _backScale9Grid, false);
-					}
-					else {
-						g = _back.graphics;
-						g.clear();
-						fillBitmap(g, _backTexture, getRectangle(0,0,w,h) );
-					}
 					_back.filters = _backFilters1;
 					break;
 				
 				case TextInput.STATE_NORMAL:
-				
 				default:
-					if( _backScale9Grid ) {
-						g = _back.graphics;
-						g.clear();
-						fill9Grid( g, _backTexture, getRectangle(0,0,w,h), _backScale9Grid, false);
-					}
-					else {
-						g = _back.graphics;
-						g.clear();
-						fillBitmap(g, _backTexture, getRectangle(0,0,w,h) );
-					}
 					_back.filters = _backFilters0;
 					break;
 			}
