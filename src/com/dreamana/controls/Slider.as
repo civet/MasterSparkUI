@@ -224,9 +224,9 @@ package com.dreamana.controls
 		}
 		
 		public function get value():Number { return _value; }
-		public function set value(value:Number):void
+		public function set value(v:Number):void
 		{
-			_value = value;
+			_value = v;
 			
 			//set handle position
 			positionHandle();
