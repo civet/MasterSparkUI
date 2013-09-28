@@ -85,16 +85,16 @@ package com.dreamana.gui
 			//Overriden in subclasses
 		}
 		
-		override public function adjustSize():void
+		override public function setSize(w:Number, h:Number, deferred:Boolean=true):void
 		{
-			if(_skin) _skin.setSize(_width, _height);//deferred
+			if(_skin) _skin.setSize(w, h, deferred);
 			
-			super.adjustSize();
+			super.setSize(w, h, deferred);
 		}
 		
 		protected function updateSkinProps():void
 		{			
-			if(_skin) _skin.setDrawingProps( _skinProps );//deferred
+			if(_skin) _skin.setDrawingProps( _skinProps );
 		}
 				
 		//--- Getter/Setters ---

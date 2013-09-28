@@ -36,7 +36,7 @@ package com.dreamana.controls.skins
 			this.addPart("face", _face);
 		}
 		
-		override public function redraw():void
+		override protected function redraw():void
 		{		
 			var g:Graphics;
 						

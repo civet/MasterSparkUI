@@ -44,25 +44,12 @@ package com.dreamana.controls.skins
 			_textfield.defaultTextFormat = defaultFormat;
 			_textfield.text = "";
 			
-			//this.addChild(_back);
-			//this.addChild(_textfield);	
-			
+			//elementList
 			this.addPart("back", _back);
 			this.addPart("textfield", _textfield);
 		}
 		
-		override public function adjustSize():void
-		{
-			//set textfield size
-			_textfield.x = _padding.left;
-			_textfield.y = _padding.top;
-			_textfield.width = _width - _padding.left - _padding.right;
-			_textfield.height = _height - _padding.top - _padding.bottom;
-		
-			super.adjustSize();
-		}
-		
-		override public function redraw():void
+		override protected function redraw():void
 		{
 			var g:Graphics;
 			
@@ -70,6 +57,12 @@ package com.dreamana.controls.skins
 			var h:int = _height;
 			var state:String = _props["state"];
 			
+			//set textfield size
+			_textfield.x = _padding.left;
+			_textfield.y = _padding.top;
+			_textfield.width = w - _padding.left - _padding.right;
+			_textfield.height = h - _padding.top - _padding.bottom;
+						
 			if(_backTexture) {
 				g = _back.graphics;
 				g.clear();

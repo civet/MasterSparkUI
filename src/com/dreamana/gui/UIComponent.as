@@ -28,6 +28,8 @@ package com.dreamana.gui
 		protected var _height:int = 0;
 		protected var _sizeChanged:Boolean = false;
 		
+		protected var _dirty:Boolean = false;
+		
 		protected var _enabled:Boolean = true;
 				
 		
@@ -38,75 +40,55 @@ package com.dreamana.gui
 		//--- Public Methods ---		
 		
 		/**
-		 * Overriden in subclasses
+		 * Set the position of the component.
+		 * @param px		The x of the component.
+		 * @param py		The y of the component.
+		 * @param deferred	Use Deferred Rendering or not.
 		 */
-		public function adjustSize():void
+		public function setPosition(px:Number, py:Number, deferred:Boolean=true):void
 		{
-			this.dispatchEvent(new Event(Event.RESIZE));
-		}
-		
-		/**
-		 * Overriden in subclasses
-		 */
-		public function redraw():void
-		{
+			_positionChanged = (_x != px || _y != py);
 			
-		}
-		
-		/**
-		 * Dirty, need redraw on next frame.
-		 */		
-		public function invalidate():void
-		{
-			//this.addEventListener(Event.ENTER_FRAME, onInvalidate);
-			enterFrame.add(onInvalidate, true);
-		}
-		
-		/**
-		 * Sets the component to the specified position. (directly)
-		 * @param px The x position to place the component.
-		 * @param py The y position to place the component.
-		 */
-		public function setPosition(px:Number, py:Number):void
-		{
-			super.x = Math.round(px);
-			super.y = Math.round(py);
-		}
-		
-		/**
-		 * Sets the component position. (deferred)
-		 * @param px
-		 * @param py
-		 */		
-		public function setPosition2(px:Number, py:Number):void
-		{
+			//pixel-aligned (pixel perfect)
 			_x = Math.round(px);
 			_y = Math.round(py);
 			
-			_positionChanged = true;
-			invalidate();
+			deferred ? invalidate(false) : update();
 		}
 		
 		/**
-		 * Sets the size of the component. (deferred)
-		 * @param w The width of the component.
-		 * @param h The height of the component.
+		 * Set the size of the component.
+		 * @param w			The width of the component.
+		 * @param h			The height of the component.
+		 * @param deferred	Use Deferred Rendering or not.
 		 */
-		public function setSize(w:Number, h:Number):void
+		public function setSize(w:Number, h:Number, deferred:Boolean=true):void
 		{
+			_sizeChanged = (_width != w || _height != h);
+			
 			_width = w;
 			_height = h;
-			
-			_sizeChanged = true;
-			invalidate();
+						
+			deferred ? invalidate(_sizeChanged) : update();
 		}
 								
-		//--- Event Handlers ---
+		//--- Rendering Methods ---
 		
 		/**
-		 * validate
+		 * Update on the next frame (Deferred Rendering).
+		 */		
+		public function invalidate(dirty:Boolean=true):void
+		{
+			_dirty = dirty;
+			
+			//this.addEventListener(Event.ENTER_FRAME, onInvalidate);
+			enterFrame.add(update, true);
+		}
+		
+		/**
+		 * Update
 		 */
-		protected function onInvalidate():void
+		public function update():void
 		{
 			//this.removeEventListener(Event.ENTER_FRAME, onInvalidate);
 			
@@ -120,18 +102,27 @@ package com.dreamana.gui
 			//call only when size changed
 			if(_sizeChanged) {
 				_sizeChanged = false;
-				adjustSize();
+				this.dispatchEvent(new Event(Event.RESIZE));
 			}
 			
-			//always call
-			redraw();
+			//call if dirty
+			if(_dirty) {
+				_dirty = false;
+				redraw();
+			}
 		}
 		
-		//--- Getter/setters ---
-				
 		/**
-		 * always place the component on a whole pixel.
+		 * Redraw
 		 */
+		protected function redraw():void
+		{
+			//Overriden in subclasses
+		}
+				
+		//--- Getter/setters ---
+		
+		/* pixel-aligned (pixel perfect) */
 		override public function set x(value:Number):void {
 			super.x = Math.round(value);
 		}
@@ -141,16 +132,12 @@ package com.dreamana.gui
 		
 		override public function get width():Number { return _width; }
 		override public function set width(value:Number):void {
-			_width = value;
-			_sizeChanged = true;
-			invalidate();
+			setSize(value, _height);
 		}
 		
 		override public function get height():Number { return _height; }
 		override public function set height(value:Number):void {
-			_height = value;
-			_sizeChanged = true;
-			invalidate();
+			setSize(_width, value);
 		}
 		
 		public function get enabled():Boolean { return _enabled; }

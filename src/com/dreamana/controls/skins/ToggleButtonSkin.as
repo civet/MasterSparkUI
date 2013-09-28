@@ -44,7 +44,6 @@ package com.dreamana.controls.skins
 			_faceFilters4 = [getShadow(2, true)];//over & selected
 			_backFilters4 = [getShadow(2, true)];//over & selected
 			
-			
 			//elements
 			_back = new Shape();
 			
@@ -52,16 +51,12 @@ package com.dreamana.controls.skins
 			_face.x = 1;
 			_face.y = 1;
 			
-			//displayList
-			//this.addChild(_back);
-			//this.addChild(_face);
-			
 			//elementList
 			this.addPart("back", _back);
 			this.addPart("face", _face);
 		}
 		
-		override public function redraw():void
+		override protected function redraw():void
 		{
 			var g:Graphics;
 			

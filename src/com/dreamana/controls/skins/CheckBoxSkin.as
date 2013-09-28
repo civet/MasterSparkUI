@@ -35,7 +35,7 @@ package com.dreamana.controls.skins
 			this.addPart("face", _face);
 		}
 		
-		override public function redraw():void
+		override protected function redraw():void
 		{
 			var g:Graphics;
 			
@@ -44,7 +44,6 @@ package com.dreamana.controls.skins
 			var size:int = _boxSize;
 			var state:String = _props["state"];
 			var selected:Boolean = _props["selected"];
-			
 			
 			switch(state)
 			{

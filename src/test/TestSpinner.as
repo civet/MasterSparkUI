@@ -33,7 +33,7 @@ package test
 			spinner.x = 100;
 			input.skin.setStyle("background-color", 0xeeeeee);
 			input.text = "0";
-						
+			
 			spinner.minimum = 0;
 			spinner.maximum = 10;
 			spinner.allowValueWrap = true;
@@ -41,8 +41,7 @@ package test
 			
 			input.addEventListener(TextEvent.TEXT_INPUT, onTextInput);
 			
-			/*spinner.enabled = false;
-			input.setSize(100, 80);
+			/*input.setSize(100, 80);
 			spinner.setSize(100, 80);
 			spinner.changeButtonSize(100, 38);*/
 		}

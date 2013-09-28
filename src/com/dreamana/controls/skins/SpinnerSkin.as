@@ -37,8 +37,20 @@ package com.dreamana.controls.skins
 			this.addPart("incrementButton", _incrementButton);
 			this.addPart("decrementButton", _decrementButton);
 		}
+		
+		/* Hack */
+		override public function setDrawingProps(props:Object):void
+		{
+			var buttonWidth:int = props["buttonWidth"];
+			var buttonHeight:int = props["buttonHeight"];
+			
+			_incrementButton.setSize(buttonWidth, buttonHeight);
+			_decrementButton.setSize(buttonWidth, buttonHeight);
+			
+			super.setDrawingProps(props);			
+		}
 				
-		override public function redraw():void
+		override protected function redraw():void
 		{
 			var g:Graphics;
 						
@@ -47,10 +59,7 @@ package com.dreamana.controls.skins
 			var state:String = _props["state"];
 			var buttonWidth:int = _props["buttonWidth"];
 			var buttonHeight:int = _props["buttonHeight"];
-			
-			_incrementButton.setSize(buttonWidth, buttonHeight);
-			_decrementButton.setSize(buttonWidth, buttonHeight);
-			
+						
 			_incrementButton.x = w - _decrementButton.width >> 1;
 			_incrementButton.y = 0;
 			

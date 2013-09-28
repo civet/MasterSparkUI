@@ -50,8 +50,10 @@ package com.dreamana.controls
 		}
 		
 		/* HACK */		
-		override public function adjustSize():void
+		override public function setSize(w:Number, h:Number, deferred:Boolean=true):void
 		{
+			super.setSize(w, h, deferred);
+			
 			//calculate handle size
 			var minLength:int;
 			var length:int, thickness:int;
@@ -61,7 +63,7 @@ package com.dreamana.controls
 				minLength = _height;
 				length = Math.max(minLength, _width * _percent);
 				
-				changeHandleSize(length, thickness, false);
+				changeHandleSize(length, thickness, true);
 			}
 			else {
 				
@@ -69,13 +71,11 @@ package com.dreamana.controls
 				minLength = _width;
 				length = Math.max(minLength, _height * _percent);
 				
-				changeHandleSize(thickness, length, false);
+				changeHandleSize(thickness, length, true);
 			}
 			
 			//reset handle position
 			positionHandle();
-			
-			super.adjustSize();
 		}
 				
 		override protected function partAdded(partName:String, instance:Object):void
@@ -236,12 +236,8 @@ package com.dreamana.controls
 		public function set percent(value:Number):void {
 			_percent = value;
 			
-			//deferred
-			//_sizeChanged = true;
-			//this.invalidate();
-			
-			//directly
-			this.adjustSize();	
+			//update size
+			this.setSize(_width, _height);	
 		}
 				
 		public function get orientation():String { return _orientation; }
@@ -258,9 +254,9 @@ package com.dreamana.controls
 				setSize(h, w);
 				
 				//swap width & height of handle
-				w = _handleWidth;
-				h = _handleHeight;
-				changeHandleSize(h, w);
+				//w = _handleWidth;
+				//h = _handleHeight;
+				//changeHandleSize(h, w);
 				
 				//new orientation
 				changeOrientation(_orientation);

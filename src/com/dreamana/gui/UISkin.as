@@ -25,12 +25,12 @@ package com.dreamana.gui
 		/* Initializing & drawing */
 		
 		protected var _props:Object;
-		
-		//public function setSize(w:int, h:int):void;
-				
+						
 		public function setDrawingProps(props:Object):void
 		{
 			_props = props;
+			
+			_dirty = true;
 			
 			invalidate();
 		}

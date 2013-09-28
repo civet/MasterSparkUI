@@ -37,29 +37,27 @@ package com.dreamana.controls.skins
 			
 			_textfield.text = "";
 			
-			//this.addChild(_textfield);
-			
 			//elementList
 			this.addPart("textfield", _textfield);
 		}
 		
-		override public function adjustSize():void
+		override protected function redraw():void
 		{
+			var w:int = _width;
+			var h:int = _height;
+			var state:String = _props["state"];
+			
 			/*
-			var fontSize:int = _width / _textfield.text.length;
+			var fontSize:int = w / _textfield.text.length;
 			_formatNormal.size = fontSize;
 			_formatOver.size = fontSize;
 			_formatDown.size = fontSize;
 			_formatDisabled.size = fontSize;
 			*/
 			
-			_textfield.x = _width - _textfield.width >> 1;
-			_textfield.y = _height - _textfield.height >> 1;
-		}
-		
-		override public function redraw():void
-		{
-			var state:String = _props["state"];
+			//align-center
+			_textfield.x = w - _textfield.width >> 1;
+			_textfield.y = h - _textfield.height >> 1;
 			
 			switch(state)
 			{
@@ -107,8 +105,6 @@ package com.dreamana.controls.skins
 				
 				case "text":
 					_textfield.text = value as String;
-					
-					_sizeChanged = true;
 					invalidate();
 					break;
 			}

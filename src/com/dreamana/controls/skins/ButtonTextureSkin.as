@@ -34,12 +34,11 @@ package com.dreamana.controls.skins
 			//elements
 			_face = new Shape();
 			
-			//this.addChild(_face);
-			
+			//elementList
 			this.addPart("face", _face);
 		}
 		
-		override public function redraw():void
+		override protected function redraw():void
 		{		
 			if(!_normalTexture) return;
 			if(!_downTexture) return;
