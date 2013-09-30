@@ -57,7 +57,7 @@ package com.dreamana.controls.skins
 			_textfield.y = _padding.top;
 			_textfield.width = w - _padding.left - _padding.right;
 			_textfield.height = h - _padding.top - _padding.bottom;
-			
+						
 			switch(state) {
 				case TextInput.STATE_DISABLED:
 					g = _back.graphics;

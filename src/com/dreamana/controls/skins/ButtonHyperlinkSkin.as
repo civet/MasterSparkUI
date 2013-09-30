@@ -48,7 +48,7 @@ package com.dreamana.controls.skins
 			var state:String = _props["state"];
 			
 			/*
-			var fontSize:int = w / _textfield.text.length;
+			var fontSize:int = ?;
 			_formatNormal.size = fontSize;
 			_formatOver.size = fontSize;
 			_formatDown.size = fontSize;

@@ -218,7 +218,7 @@ package com.dreamana.controls
 		{
 			super.enabled = value;
 			
-			//enabled(up) | disabled state
+			//enabled | disabled state
 			if(value) changeState( STATE_NORMAL );
 			else changeState( STATE_DISABLED );
 		}

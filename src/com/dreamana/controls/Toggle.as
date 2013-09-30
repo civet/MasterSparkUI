@@ -61,12 +61,16 @@ package com.dreamana.controls
 		
 		//--- Event Handlers ---
 		
+		protected var _isDown:Boolean;
+		
 		protected function onPress(event:MouseEvent):void
 		{
 			stage.addEventListener(MouseEvent.MOUSE_UP, onRelease);
 			
 			//down state			
 			changeState( STATE_DOWN );
+			
+			_isDown = true;
 		}
 		
 		protected function onRelease(event:MouseEvent):void
@@ -84,13 +88,15 @@ package com.dreamana.controls
 				
 				changeSelection( _selected );
 			}
+			
+			_isDown = false;
 		}
 		
 		protected function onOver(event:MouseEvent):void
 		{
 			//down | over state
 			if(_enabled) {
-				//changeState( event.buttonDown ? STATE_DOWN : STATE_OVER );
+				//changeState( (_isDown && event.buttonDown) ? STATE_DOWN : STATE_OVER );
 				changeState( STATE_OVER );
 			}			
 		}
@@ -109,7 +115,7 @@ package com.dreamana.controls
 		{
 			super.enabled = value;
 			
-			//enabled(up) | disabled state
+			//enabled | disabled state
 			if(value) changeState( STATE_NORMAL );
 			else changeState( STATE_DISABLED );
 		}

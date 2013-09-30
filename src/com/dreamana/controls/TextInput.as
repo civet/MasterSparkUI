@@ -53,6 +53,8 @@ package com.dreamana.controls
 				_textfield = instance as TextField;
 								
 				_textfield.removeEventListener(TextEvent.TEXT_INPUT, onTextInput);
+				
+				_text = _textfield.text;
 			}
 		}
 		
@@ -85,8 +87,6 @@ package com.dreamana.controls
 		
 		protected function onTextInput(event:TextEvent):void
 		{
-			_text = _textfield.text + event.text;
-			
 			if(hasEventListener(event.type)) this.dispatchEvent( event );
 		}
 		
@@ -103,7 +103,7 @@ package com.dreamana.controls
 		
 		public function get text():String
 		{ 
-			//_text = _textfield ? _textfield.text : "";
+			if(_textfield) _text = _textfield.text;
 			return _text;
 		}
 		

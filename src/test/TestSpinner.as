@@ -31,7 +31,6 @@ package test
 			this.addChild(input);
 			
 			spinner.x = 100;
-			input.skin.setStyle("background-color", 0xeeeeee);
 			input.text = "0";
 			
 			spinner.minimum = 0;
@@ -39,18 +38,22 @@ package test
 			spinner.allowValueWrap = true;
 			spinner.addEventListener(Event.CHANGE, onSpinnerChange);
 			
-			input.addEventListener(TextEvent.TEXT_INPUT, onTextInput);
+			//spinner.enabled = false;
+			//input.enabled = false;
 			
-			/*input.setSize(100, 80);
+			/*
+			input.setSize(100, 80);
 			spinner.setSize(100, 80);
-			spinner.changeButtonSize(100, 38);*/
+			spinner.changeButtonSize(100, 38);
+			*/
+			
+			spinner.orientation = Spinner.HORIZONTAL;
+			spinner.setSize(142, 20);
+			spinner.changeButtonSize(20, 20);
+			spinner.x = 0;
+			input.x = 21;
 		}
-		
-		protected function onTextInput(event:TextEvent):void
-		{
-			spinner.value = parseInt(input.text);
-		}
-		
+				
 		protected function onSpinnerChange(event:Event):void
 		{
 			input.text = "" + spinner.value;

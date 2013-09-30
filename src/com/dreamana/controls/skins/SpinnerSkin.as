@@ -59,26 +59,54 @@ package com.dreamana.controls.skins
 			var state:String = _props["state"];
 			var buttonWidth:int = _props["buttonWidth"];
 			var buttonHeight:int = _props["buttonHeight"];
-						
-			_incrementButton.x = w - _decrementButton.width >> 1;
-			_incrementButton.y = 0;
-			
-			_decrementButton.x = w - _decrementButton.width >> 1;
-			_decrementButton.y = h - _incrementButton.height;
-			
-			g = _incrementArrow.graphics;
-			g.beginFill(_arrowColor);
-			g.moveTo(int(buttonWidth/2), int(buttonHeight/4));
-			g.lineTo(int(buttonWidth/4), int(buttonHeight*3/4));
-			g.lineTo(int(buttonWidth*3/4), int(buttonHeight*3/4));
-			g.endFill();
-			
-			g = _decrementArrow.graphics;
-			g.beginFill(_arrowColor);
-			g.moveTo(int(buttonWidth/2), int(buttonHeight*3/4));
-			g.lineTo(int(buttonWidth/4), int(buttonHeight/4));
-			g.lineTo(int(buttonWidth*3/4), int(buttonHeight/4));
-			g.endFill();
+			var orientation:String = _props["orientation"];
+				
+			if(orientation == Spinner.VERTICAL) {
+				_incrementButton.x = w - _decrementButton.width >> 1;
+				_incrementButton.y = 0;
+				
+				_decrementButton.x = w - _decrementButton.width >> 1;
+				_decrementButton.y = h - _incrementButton.height;
+				
+				g = _incrementArrow.graphics;
+				g.clear();
+				g.beginFill(_arrowColor);
+				g.moveTo(int(buttonWidth/2), int(buttonHeight/4));
+				g.lineTo(int(buttonWidth/4), int(buttonHeight*3/4));
+				g.lineTo(int(buttonWidth*3/4), int(buttonHeight*3/4));
+				g.endFill();
+				
+				g = _decrementArrow.graphics;
+				g.clear();
+				g.beginFill(_arrowColor);
+				g.moveTo(int(buttonWidth/2), int(buttonHeight*3/4));
+				g.lineTo(int(buttonWidth/4), int(buttonHeight/4));
+				g.lineTo(int(buttonWidth*3/4), int(buttonHeight/4));
+				g.endFill();
+			}
+			else {
+				_incrementButton.x = 0;
+				_incrementButton.y = h - _incrementButton.height >> 1;
+				
+				_decrementButton.x = w - _decrementButton.width;
+				_decrementButton.y = h - _decrementButton.height >> 1;
+				
+				g = _incrementArrow.graphics;
+				g.clear();
+				g.beginFill(_arrowColor);
+				g.moveTo(int(buttonWidth/4), int(buttonHeight/2));
+				g.lineTo(int(buttonWidth*3/4), int(buttonHeight/4));
+				g.lineTo(int(buttonWidth*3/4), int(buttonHeight*3/4));
+				g.endFill();
+				
+				g = _decrementArrow.graphics;
+				g.clear();
+				g.beginFill(_arrowColor);
+				g.moveTo(int(buttonWidth*3/4), int(buttonHeight/2));
+				g.lineTo(int(buttonWidth/4), int(buttonHeight/4));
+				g.lineTo(int(buttonWidth/4), int(buttonHeight*3/4));
+				g.endFill();
+			}
 			
 			switch(state) {
 				case Spinner.STATE_DISABLED:

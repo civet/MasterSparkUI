@@ -28,7 +28,7 @@ package com.dreamana.gui
 		protected var _height:int = 0;
 		protected var _sizeChanged:Boolean = false;
 		
-		protected var _dirty:Boolean = false;
+		protected var _isDirty:Boolean = false;
 		
 		protected var _enabled:Boolean = true;
 				
@@ -69,17 +69,27 @@ package com.dreamana.gui
 			_width = w;
 			_height = h;
 						
-			deferred ? invalidate(_sizeChanged) : update();
+			if(deferred) {
+				invalidate(_sizeChanged);
+			}
+			else {
+				//BUG FIXED
+				if(!_isDirty && _sizeChanged) _isDirty = true;
+				
+				update();
+			}
 		}
 								
 		//--- Rendering Methods ---
 		
 		/**
 		 * Update on the next frame (Deferred Rendering).
+		 * @dirty
 		 */		
 		public function invalidate(dirty:Boolean=true):void
 		{
-			_dirty = dirty;
+			//BUG FIXED: once isDirty is setted true, do not change it until redraw. 
+			if(!_isDirty && dirty) _isDirty = true;
 			
 			//this.addEventListener(Event.ENTER_FRAME, onInvalidate);
 			enterFrame.add(update, true);
@@ -106,8 +116,8 @@ package com.dreamana.gui
 			}
 			
 			//call if dirty
-			if(_dirty) {
-				_dirty = false;
+			if(_isDirty) {
+				_isDirty = false;
 				redraw();
 			}
 		}

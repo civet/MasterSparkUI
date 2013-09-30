@@ -16,6 +16,9 @@ package com.dreamana.controls
 		public static const STATE_NORMAL:String = "normal";
 		public static const STATE_DISABLED:String = "disabled";
 		
+		public static const HORIZONTAL:String = "horizontal";
+		public static const VERTICAL:String = "vertical";
+				
 		protected var _value:Number = 0.0;
 		protected var _step:Number = 1.0;
 		protected var _direction:int = 0;
@@ -31,6 +34,7 @@ package com.dreamana.controls
 		protected var _incrementButton:Sprite;
 		protected var _buttonWidth:int;
 		protected var _buttonHeight:int;
+		protected var _orientation:String;
 		
 		
 		public function Spinner()
@@ -40,7 +44,8 @@ package com.dreamana.controls
 			_height = 20;
 			_buttonWidth = 20;
 			_buttonHeight = 9;
-			_skinProps = {state: STATE_NORMAL, buttonWidth:_buttonWidth, buttonHeight:_buttonHeight};
+			_orientation = VERTICAL;
+			_skinProps = {state: STATE_NORMAL, buttonWidth:_buttonWidth, buttonHeight:_buttonHeight, orientation:_orientation};
 			_skinClass = SpinnerSkin;
 			
 			//timers
@@ -111,6 +116,12 @@ package com.dreamana.controls
 			this.updateSkinProps();
 		}
 		
+		protected function changeOrientation(orientation:String):void
+		{
+			_skinProps["orientation"] = orientation;
+			this.updateSkinProps();
+		}
+		
 		//--- Event Handlers ---
 		
 		protected function onButtonDown(event:MouseEvent):void
@@ -163,7 +174,7 @@ package com.dreamana.controls
 		{
 			super.enabled = value;
 			
-			//enabled(up) | disabled state
+			//enabled | disabled state
 			if(value) changeState( STATE_NORMAL );
 			else changeState( STATE_DISABLED );
 		}
@@ -173,7 +184,7 @@ package com.dreamana.controls
 			
 			if(v < _minimum) v = _minimum;
 			else if(v > _maximum) v = _maximum;
-			
+						
 			_value = v;
 		}
 
@@ -201,6 +212,41 @@ package com.dreamana.controls
 			}
 		}
 		
+		public function get step():Number { return _step; }
+		public function set step(value:Number):void {
+			_step = value;
+		}
+		
 		public var allowValueWrap:Boolean = false;
+		
+		public function get reapeatTime():int { return _repeatTime; }
+		public function set reapeatTime(value:int):void {
+			_repeatTime = (value < 10) ? 10 : value;
+			_repeatTimer.delay = _repeatTime;
+		}
+		
+		
+		public function get orientation():String { return _orientation; }
+		public function set orientation(value:String):void
+		{
+			//if changed..
+			if(_orientation != value) {
+				_orientation = value;
+				
+				//swap width & height
+				var w:int, h:int;
+				w = _width;
+				h = _height;
+				setSize(h, w);
+				
+				//swap width & height of button
+				w = _buttonWidth;
+				h = _buttonHeight;
+				changeButtonSize(h, w);
+				
+				//new orientation
+				changeOrientation(_orientation);
+			}
+		}
 	}
 }

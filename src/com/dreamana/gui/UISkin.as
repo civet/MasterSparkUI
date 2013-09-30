@@ -30,7 +30,7 @@ package com.dreamana.gui
 		{
 			_props = props;
 			
-			_dirty = true;
+			_isDirty = true;
 			
 			invalidate();
 		}

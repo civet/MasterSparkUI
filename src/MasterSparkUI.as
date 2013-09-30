@@ -24,7 +24,9 @@ package
 			//this.addChild(new TestToggle());
 			//this.addChild(new TestToggleGroup());
 			//this.addChild(new TestSlider());
-			this.addChild(new TestSpinner());
+			//this.addChild(new TestSpinner());
+			//this.addChild(new TestNumericStepper());
+			this.addChild(new TestScrollbar());
 		}
 	}
 }
