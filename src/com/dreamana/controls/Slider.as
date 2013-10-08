@@ -63,7 +63,7 @@ package com.dreamana.controls
 				minLength = _height;
 				length = Math.max(minLength, _width * _percent);
 				
-				changeHandleSize(length, thickness, true);
+				changeHandleSize(length, thickness);
 			}
 			else {
 				
@@ -71,7 +71,7 @@ package com.dreamana.controls
 				minLength = _width;
 				length = Math.max(minLength, _height * _percent);
 				
-				changeHandleSize(thickness, length, true);
+				changeHandleSize(thickness, length);
 			}
 			
 			//reset handle position
@@ -117,7 +117,7 @@ package com.dreamana.controls
 			this.updateSkinProps();
 		}
 		
-		protected function changeHandleSize(w:int, h:int, sync:Boolean=true):void
+		protected function changeHandleSize(w:int, h:int):void
 		{
 			_handleWidth = w;
 			_handleHeight = h;
@@ -125,7 +125,7 @@ package com.dreamana.controls
 			_skinProps["handleWidth"] = w;
 			_skinProps["handleHeight"] = h;
 			
-			if(sync) this.updateSkinProps();
+			this.updateSkinProps();
 		}
 		
 		protected function positionHandle():void
@@ -133,12 +133,12 @@ package com.dreamana.controls
 			if(!_handle) return;
 			
 			if(_orientation == HORIZONTAL) {
-				_handle.x = Math.round( (_width - _handleWidth) * value );
+				_handle.x = Math.round( (_width - _handleWidth) * _value );
 				_handle.y = 0;
 			}
 			else {
 				_handle.x = 0;
-				_handle.y =  Math.round( (_height - _handleHeight) * value );
+				_handle.y = Math.round( (_height - _handleHeight) * (1.0 - _value) );
 			}
 		}
 		
@@ -181,7 +181,7 @@ package com.dreamana.controls
 				_value = _handle.x / (_width - _handleWidth);
 			}
 			else {
-				_value = _handle.y / (_height - _handleHeight);
+				_value = 1.0 - _handle.y / (_height - _handleHeight);
 			}
 			
 			//dispatch
@@ -203,7 +203,7 @@ package com.dreamana.controls
 			else {
 				var py:Number = Math.max(Math.min(my - _handleHeight * .5, _height - _handleHeight), 0);
 				_handle.y = Math.round(py);
-				_value = _handle.y / (_height - _handleHeight);
+				_value = 1.0 - _handle.y / (_height - _handleHeight);
 			}
 			
 			//dispatch

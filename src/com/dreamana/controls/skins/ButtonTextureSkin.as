@@ -40,9 +40,6 @@ package com.dreamana.controls.skins
 		
 		override protected function redraw():void
 		{		
-			if(!_normalTexture) return;
-			if(!_downTexture) return;
-			
 			var g:Graphics;
 			
 			var w:int = _width;

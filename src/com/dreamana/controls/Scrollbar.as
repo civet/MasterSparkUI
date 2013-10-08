@@ -4,7 +4,7 @@ package com.dreamana.controls
 	
 	import flash.events.Event;
 	
-	public class Scrollbar extends UIComponent
+	public class ScrollBar extends UIComponent
 	{
 		public static const HORIZONTAL:String = "horizontal";
 		public static const VERTICAL:String = "vertical";
@@ -17,7 +17,7 @@ package com.dreamana.controls
 		protected var _buttonHeight:int;
 		
 		
-		public function Scrollbar()
+		public function ScrollBar()
 		{
 			//default setting
 			/*_width = 20;
@@ -105,7 +105,7 @@ package com.dreamana.controls
 		
 		protected function onSpinnerChange(event:Event):void
 		{
-			slider.value = 1.0 - spinner.value;
+			slider.value = spinner.value;
 			
 			//dispatch
 			this.dispatchEvent(new Event(Event.CHANGE));
@@ -113,7 +113,7 @@ package com.dreamana.controls
 		
 		protected function onSliderChange(event:Event):void
 		{
-			spinner.value = 1.0 - slider.value;
+			spinner.value = slider.value;
 			
 			//dispatch
 			this.dispatchEvent(new Event(Event.CHANGE));
@@ -133,7 +133,7 @@ package com.dreamana.controls
 		public function get value():Number { return slider.value; }
 		public function set value(v:Number):void {
 			slider.value = v;
-			spinner.value = 1.0 - slider.value;
+			spinner.value = v;
 		}
 		
 		public function get percent():Number { return slider.percent; }
@@ -158,14 +158,6 @@ package com.dreamana.controls
 				w = _width;
 				h = _height;
 				setSize(h, w);
-				
-				//swap width & height of handle
-				//w = _handleWidth;
-				//h = _handleHeight;
-				//changeHandleSize(h, w);
-				
-				//new orientation
-				
 			}
 		}
 	}

@@ -31,7 +31,7 @@ package test
 			slider.addEventListener(Event.CHANGE, onSliderChange);
 			slider.orientation = Slider.VERTICAL;
 			slider.setSize(20, 300);
-			slider.value = 0.5;
+			slider.value = 0.25;
 			slider.percent = 0.25;
 			slider.trackClickEnabled = false;
 			this.addChild(slider);

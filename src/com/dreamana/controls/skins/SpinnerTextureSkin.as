@@ -5,33 +5,27 @@ package com.dreamana.controls.skins
 	import com.dreamana.gui.UISkin;
 	
 	import flash.display.Graphics;
-	import flash.display.Shape;
 	
-	public class SpinnerSkin extends UISkin
+	
+	public class SpinnerTextureSkin extends UISkin
 	{
 		//element
 		protected var _incrementButton:Button;
 		protected var _decrementButton:Button;
-		protected var _incrementArrow:Shape;
-		protected var _decrementArrow:Shape;
 		
-		//style
-		protected var _arrowColor:int;
+		//texture
 		
-		
-		public function SpinnerSkin()
+		public function SpinnerTextureSkin()
 		{
 			//default setting
-			_arrowColor = 0xcccccc;
 			
 			//elements
 			_incrementButton = new Button();
 			_decrementButton = new Button();
 			
-			_incrementArrow = new Shape();
-			_decrementArrow = new Shape();
-			_incrementButton.addChild(_incrementArrow);
-			_decrementButton.addChild(_decrementArrow);
+			//use texture skin
+			_incrementButton.skin = new ButtonTextureSkin();
+			_decrementButton.skin = new ButtonTextureSkin();
 			
 			//elementList
 			this.addPart("incrementButton", _incrementButton);
@@ -49,40 +43,24 @@ package com.dreamana.controls.skins
 			
 			super.setDrawingProps(props);			
 		}
-				
+		
 		override protected function redraw():void
 		{
 			var g:Graphics;
-						
+			
 			var w:int = _width;
 			var h:int = _height;
 			var state:String = _props["state"];
 			var buttonWidth:int = _props["buttonWidth"];
 			var buttonHeight:int = _props["buttonHeight"];
 			var orientation:String = _props["orientation"];
-				
+			
 			if(orientation == Spinner.VERTICAL) {
 				_incrementButton.x = w - _decrementButton.width >> 1;
 				_incrementButton.y = 0;
 				
 				_decrementButton.x = w - _decrementButton.width >> 1;
 				_decrementButton.y = h - _incrementButton.height;
-				
-				g = _incrementArrow.graphics;
-				g.clear();
-				g.beginFill(_arrowColor);
-				g.moveTo(int(buttonWidth/2), int(buttonHeight/4));
-				g.lineTo(int(buttonWidth/4), int(buttonHeight*3/4));
-				g.lineTo(int(buttonWidth*3/4), int(buttonHeight*3/4));
-				g.endFill();
-				
-				g = _decrementArrow.graphics;
-				g.clear();
-				g.beginFill(_arrowColor);
-				g.moveTo(int(buttonWidth/2), int(buttonHeight*3/4));
-				g.lineTo(int(buttonWidth/4), int(buttonHeight/4));
-				g.lineTo(int(buttonWidth*3/4), int(buttonHeight/4));
-				g.endFill();
 			}
 			else {
 				_incrementButton.x = 0;
@@ -90,22 +68,6 @@ package com.dreamana.controls.skins
 				
 				_decrementButton.x = w - _decrementButton.width;
 				_decrementButton.y = h - _decrementButton.height >> 1;
-				
-				g = _incrementArrow.graphics;
-				g.clear();
-				g.beginFill(_arrowColor);
-				g.moveTo(int(buttonWidth/4), int(buttonHeight/2));
-				g.lineTo(int(buttonWidth*3/4), int(buttonHeight/4));
-				g.lineTo(int(buttonWidth*3/4), int(buttonHeight*3/4));
-				g.endFill();
-				
-				g = _decrementArrow.graphics;
-				g.clear();
-				g.beginFill(_arrowColor);
-				g.moveTo(int(buttonWidth*3/4), int(buttonHeight/2));
-				g.lineTo(int(buttonWidth/4), int(buttonHeight/4));
-				g.lineTo(int(buttonWidth/4), int(buttonHeight*3/4));
-				g.endFill();
 			}
 			
 			switch(state) {
@@ -124,20 +86,16 @@ package com.dreamana.controls.skins
 		
 		override public function setStyle(style:String, value:Object):void
 		{
-			switch(style) {
-				case "arrow-color":
-					_arrowColor = value as Number;
-					invalidate();
+			var buttonName:String = style.substring(0, style.indexOf("-"));
+			var buttonStyle:String = style.substr(style.indexOf("-")+1);
+			
+			switch(buttonName) {
+				case "increment":
+					_incrementButton.skin.setStyle(buttonStyle, value);
 					break;
 				
-				case "face-color":
-					_incrementButton.skin.setStyle("face-color", value as Number);
-					_decrementButton.skin.setStyle("face-color", value as Number);
-					break;
-				
-				case "border-color":
-					_incrementButton.skin.setStyle("border-color", value as Number);
-					_decrementButton.skin.setStyle("border-color", value as Number);
+				case "decrement":
+					_decrementButton.skin.setStyle(buttonStyle, value);
 					break;
 			}
 		}
