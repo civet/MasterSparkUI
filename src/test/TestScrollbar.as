@@ -33,7 +33,7 @@ package test
 			scrollbar.step = 0.25;
 			scrollbar.value = 0.25;
 			
-			scrollbar.orientation = ScrollBar.VERTICAL;
+			//scrollbar.orientation = ScrollBar.VERTICAL;
 			
 			//scrollbar.enabled = false;
 			

@@ -85,13 +85,13 @@ package com.dreamana.controls.skins
 				g.endFill();
 			}
 			else {
-				_incrementButton.x = 0;
-				_incrementButton.y = h - _incrementButton.height >> 1;
-				
-				_decrementButton.x = w - _decrementButton.width;
+				_decrementButton.x = 0;
 				_decrementButton.y = h - _decrementButton.height >> 1;
 				
-				g = _incrementArrow.graphics;
+				_incrementButton.x = w - _incrementButton.width;
+				_incrementButton.y = h - _incrementButton.height >> 1;
+				
+				g = _decrementArrow.graphics;
 				g.clear();
 				g.beginFill(_arrowColor);
 				g.moveTo(int(buttonWidth/4), int(buttonHeight/2));
@@ -99,7 +99,7 @@ package com.dreamana.controls.skins
 				g.lineTo(int(buttonWidth*3/4), int(buttonHeight*3/4));
 				g.endFill();
 				
-				g = _decrementArrow.graphics;
+				g = _incrementArrow.graphics;
 				g.clear();
 				g.beginFill(_arrowColor);
 				g.moveTo(int(buttonWidth*3/4), int(buttonHeight/2));

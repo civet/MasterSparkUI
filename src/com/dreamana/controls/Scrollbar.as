@@ -4,6 +4,8 @@ package com.dreamana.controls
 	
 	import flash.events.Event;
 	
+	[Event(name="change", type="flash.events.Event")]
+	
 	public class ScrollBar extends UIComponent
 	{
 		public static const HORIZONTAL:String = "horizontal";
@@ -66,7 +68,6 @@ package com.dreamana.controls
 			
 			spinner.minimum = 0;
 			spinner.maximum = 1.0;
-			spinner.value = 1.0
 			spinner.step = 0.1;
 			slider.trackClickEnabled = true;	
 			

@@ -63,11 +63,11 @@ package com.dreamana.controls.skins
 				_decrementButton.y = h - _incrementButton.height;
 			}
 			else {
-				_incrementButton.x = 0;
-				_incrementButton.y = h - _incrementButton.height >> 1;
-				
-				_decrementButton.x = w - _decrementButton.width;
+				_decrementButton.x = 0;
 				_decrementButton.y = h - _decrementButton.height >> 1;
+				
+				_incrementButton.x = w - _decrementButton.width;
+				_incrementButton.y = h - _incrementButton.height >> 1;
 			}
 			
 			switch(state) {
