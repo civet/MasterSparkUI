@@ -51,8 +51,8 @@ package com.dreamana.controls
 				spinner.changeButtonSize(_buttonWidth, _buttonHeight);
 				
 				//slider.orientation = Slider.HORIZONTAL;
-				slider.setSize(_width - _buttonWidth*2 -2, _height);
-				slider.x = _buttonWidth + 1;
+				slider.setSize(_width - _buttonWidth*2/* -2*/, _height);
+				slider.x = _buttonWidth/* + 1*/;
 				slider.y = 0;
 			}
 			else {
@@ -61,9 +61,9 @@ package com.dreamana.controls
 				spinner.changeButtonSize(_buttonWidth, _buttonHeight);
 				
 				slider.orientation = Slider.VERTICAL;
-				slider.setSize(_width, _height - _buttonHeight*2 -2);
+				slider.setSize(_width, _height - _buttonHeight*2/* -2*/);
 				slider.x = 0;
-				slider.y = _buttonHeight + 1;
+				slider.y = _buttonHeight/* + 1*/;
 			}
 			
 			spinner.minimum = 0;
@@ -73,6 +73,13 @@ package com.dreamana.controls
 			
 			spinner.addEventListener(Event.CHANGE, onSpinnerChange);
 			slider.addEventListener(Event.CHANGE, onSliderChange);
+		}
+		
+		public function changeButtonSize(w:int, h:int):void
+		{
+			_buttonWidth = w;
+			_buttonHeight = h;
+			spinner.changeButtonSize(_buttonWidth, _buttonHeight);
 		}
 				
 		override public function setSize(w:Number, h:Number, deferred:Boolean=true):void
@@ -84,8 +91,8 @@ package com.dreamana.controls
 				spinner.changeButtonSize(_buttonWidth, _buttonHeight);
 				
 				slider.orientation = Slider.HORIZONTAL;
-				slider.setSize(w - _buttonWidth*2 -2, h);
-				slider.x = _buttonWidth + 1;
+				slider.setSize(w - _buttonWidth*2/* -2*/, h);
+				slider.x = _buttonWidth/* + 1*/;
 				slider.y = 0;
 			}
 			else {				
@@ -94,9 +101,9 @@ package com.dreamana.controls
 				spinner.changeButtonSize(_buttonWidth, _buttonHeight);
 				
 				slider.orientation = Slider.VERTICAL;
-				slider.setSize(w, h - _buttonHeight*2 -2)
+				slider.setSize(w, h - _buttonHeight*2/* -2*/)
 				slider.x = 0;
-				slider.y = _buttonHeight + 1;
+				slider.y = _buttonHeight/* + 1*/;
 			}
 						
 			super.setSize(w, h, deferred);
