@@ -27,7 +27,8 @@ package
 			//this.addChild(new TestSpinner());
 			//this.addChild(new TestNumericStepper());
 			//this.addChild(new TestScrollBar());
-			this.addChild(new TestScroller());
+			//this.addChild(new TestScroller());
+			this.addChild(new TestPanel());
 		}
 	}
 }
