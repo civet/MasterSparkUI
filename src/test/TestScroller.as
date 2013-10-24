@@ -56,6 +56,14 @@ package test
 			tgl.y = 30;
 			this.addChild(tgl);
 			tgl.addEventListener(MouseEvent.CLICK, onButtonClick);
+			
+			btn = new Button();
+			btn.name = "buttonEnabler";
+			btn.addChild(new Label("Disabled/Enabled"));
+			btn.x = 540;
+			btn.y = 60;
+			this.addChild(btn);
+			btn.addEventListener(MouseEvent.CLICK, onButtonClick);
 		}
 		
 		private function onButtonClick(event:MouseEvent):void
@@ -70,6 +78,10 @@ package test
 				
 				case "buttonAutoHide":
 					scroller.autoHideScrollBar = Toggle(target).selected;
+					break;
+				
+				case "buttonEnabler":
+					scroller.enabled = !scroller.enabled;
 					break;
 			}
 		}

@@ -7,6 +7,7 @@ package com.dreamana.controls.skins
 	
 	import flash.display.Graphics;
 	import flash.display.Sprite;
+	import flash.text.TextFieldAutoSize;
 	
 	public class PanelSkin extends UISkin
 	{
@@ -34,6 +35,7 @@ package com.dreamana.controls.skins
 			_contentArea = new Sprite();
 			_titleBar = new Sprite();
 			_title = new Label();
+			_title.autoSize = TextFieldAutoSize.NONE;
 			_toggle = new Toggle();
 			_toggle.skin = new ExpandButtonSkin();
 			_toggle.selected = true;
@@ -50,13 +52,16 @@ package com.dreamana.controls.skins
 			var titleWidth:int = props["titleWidth"];
 			var titleHeight:int = props["titleHeight"];
 			
-			var size:int = titleHeight;
-			var toggleWidth:int = size;
-			var toggleHeight:int = size;
+			var toggleWidth:int = titleHeight;
+			var toggleHeight:int = titleHeight;
 			
 			_toggle.setSize(toggleWidth, toggleHeight);
-			_title.x = size + 2;
 			
+			_title.text = props["title"] ? props["title"] : "";
+			_title.x = toggleWidth;
+			_title.width = titleWidth - _title.x;
+			_title.height = titleHeight;
+						
 			super.setDrawingProps(props);		
 		}
 		

@@ -62,13 +62,32 @@ package com.dreamana.controls
 			g.drawRect(0, 0, _width, _height);
 			g.endFill();
 			
+			var dogearWidth:int = vscrollbar.width;
+			var dogearHeight:int = hscrollbar.height;
 			g = dogear.graphics;
 			g.clear();
 			g.beginFill(0xffffff);
-			g.drawRect(0, 0, vscrollbar.width, hscrollbar.height);
+			g.drawRect(0, 0, dogearWidth, dogearHeight);
 			g.endFill();
-			dogear.x = _width - vscrollbar.width;
-			dogear.y = _height - hscrollbar.height;
+			/*
+			g.lineStyle(1, 0x999999);
+			g.moveTo(dogearWidth*3/4 +0.5, dogearHeight/4 +0.5);
+			g.lineTo(dogearWidth/4 +0.5, dogearHeight*3/4 +0.5);
+			g.moveTo(dogearWidth*3/4 +0.5, dogearHeight/2 +0.5);
+			g.lineTo(dogearWidth/2 +0.5, dogearHeight*3/4 +0.5);
+			g.moveTo(dogearWidth*3/4 +0.5 +0.5, dogearHeight*3/4 -0.5 +0.5);
+			g.lineTo(dogearWidth*3/4 -0.5 +0.5, dogearHeight*3/4 +0.5 +0.5);
+			
+			g.lineStyle(1, 0xcccccc);
+			g.moveTo(dogearWidth*3/4, dogearHeight/4);
+			g.lineTo(dogearWidth/4, dogearHeight*3/4);
+			g.moveTo(dogearWidth*3/4, dogearHeight/2);
+			g.lineTo(dogearWidth/2, dogearHeight*3/4);
+			g.moveTo(dogearWidth*3/4 +0.5, dogearHeight*3/4 -0.5);
+			g.lineTo(dogearWidth*3/4 -0.5, dogearHeight*3/4 +0.5);
+			*/
+			dogear.x = _width - dogear.width;
+			dogear.y = _height - dogear.height;
 			
 			//reset scrollbar position and size
 			readjustScrollBars();
@@ -149,6 +168,13 @@ package com.dreamana.controls
 			invalidate();
 		}
 		
+		public function removeContent(content:DisplayObject):void
+		{
+			_contentRoot.removeChild(content);
+			
+			invalidate();
+		}
+		
 		/* for content dragging */
 		
 		protected var _dragBounds:Rectangle = new Rectangle();
@@ -223,6 +249,15 @@ package com.dreamana.controls
 		}
 		
 		//--- Getter/setters ---
+		
+		override public function set enabled(value:Boolean):void
+		{
+			super.enabled = value;
+			
+			//enabled | disabled state
+			hscrollbar.enabled = _enabled;
+			vscrollbar.enabled = _enabled;
+		}
 		
 		protected var _autoHideScrollBar:Boolean = false;
 

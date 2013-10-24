@@ -3,7 +3,9 @@ package com.dreamana.controls
 	import com.dreamana.controls.skins.PanelSkin;
 	import com.dreamana.gui.SkinnableComponent;
 	
+	import flash.display.DisplayObject;
 	import flash.display.Sprite;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	
@@ -13,9 +15,11 @@ package com.dreamana.controls
 		public static const STATE_DISABLED:String = "disabled";
 		
 		protected var _titleBar:Sprite;
-		protected var _contentArea:Sprite;
 		protected var _toggle:Toggle;
+		protected var _contentArea:Sprite;
+		protected var _contentList:Array = [];
 		
+		protected var _title:String;
 		protected var _titleWidth:int;
 		protected var _titleHeight:int;
 		protected var _contentWidth:int;
@@ -31,12 +35,14 @@ package com.dreamana.controls
 			_titleHeight = 20;
 			_contentWidth = 100;
 			_contentHeight = 80;
+			_title = "";
 			_skinProps = {
 				state: STATE_NORMAL, 
 				titleWidth: _titleWidth, 
 				titleHeight: _titleHeight,
 				contentWidth: _contentWidth, 
-				contentHeight: _contentHeight
+				contentHeight: _contentHeight,
+				title: _title
 			};
 			_skinClass = PanelSkin;
 			
@@ -48,6 +54,12 @@ package com.dreamana.controls
 		{
 			if(partName == "contentArea") {
 				_contentArea = instance as Sprite;
+				
+				var num:int = _contentList.length;
+				for(var i:int = 0; i < num; ++i) {
+					var content:DisplayObject = _contentList[i];
+					if(content) _contentArea.addChild( content );
+				}
 			}
 			else if(partName == "titleBar") {
 				_titleBar = instance as Sprite;
@@ -63,6 +75,7 @@ package com.dreamana.controls
 		{
 			if(partName == "contentArea") {
 				_contentArea = instance as Sprite;
+				
 			}
 			else if(partName == "titleBar") {
 				_titleBar = instance as Sprite;
@@ -78,8 +91,12 @@ package com.dreamana.controls
 		{
 			super.setSize(w, h, deferred);
 			
+			//keep titleBar height
 			changeTitleSize(w, _titleHeight);
 			changeContentSize(w, h - _titleHeight);
+			
+			//update height
+			this.updateFoldingState();
 		}
 		
 		protected function changeState(state:String):void
@@ -110,8 +127,14 @@ package com.dreamana.controls
 			this.updateSkinProps();
 		}
 		
-		protected var _dragBounds:Rectangle = new Rectangle();
+		protected function changeTitle(s:String):void
+		{
+			_title = s;
+			_skinProps["title"] = s;
+			this.updateSkinProps();
+		}
 		
+		protected var _dragBounds:Rectangle = new Rectangle();
 		protected function getDragBounds():Rectangle
 		{
 			if(!stage) return null;
@@ -124,35 +147,66 @@ package com.dreamana.controls
 			return _dragBounds;
 		}
 		
-		protected function changeFoldingState(isExpanded:Boolean):void
+		protected function updateFoldingState():void
 		{
-			//simply hide
-			_contentArea.visible = isExpanded;
+			var stateChanged:Boolean = (_contentArea.visible != _expanded);
+			if(stateChanged) {
+				//simply hide | show
+				_contentArea.visible = _expanded;
 			
-			//update height
-			_height = isExpanded ? (_titleHeight + _contentHeight) : _titleHeight;
-			
+				//update height			
+				_height = _expanded ? (_titleHeight + _contentHeight) : _titleHeight;
+				
+				//dispatch resize event
+				this.dispatchEvent(new Event(Event.RESIZE));
+			}			
+						
 			//fix position
-			var bounds:Rectangle = getDragBounds();
 			if(_draggable) {
-				if(this.y > bounds.height) this.y = bounds.height;
-				if(this.y < bounds.y) this.y = bounds.y;
+				var bounds:Rectangle = getDragBounds();
+				if(bounds) {
+					if(this.y > bounds.height) this.y = bounds.height;
+					if(this.y < bounds.y) this.y = bounds.y;
+					
+					if(this.x > bounds.width) this.x = bounds.width;
+					if(this.x < bounds.x) this.x = bounds.x;
+				}
 			}
-			
 		}
 		
 		public function collapse():void
 		{
-			_toggle.selected = false;
+			if(!_expanded) return;
 			
-			changeFoldingState(false);
+			_expanded = false;
+			
+			_toggle.selected = _expanded;
+			this.updateFoldingState();
 		}
 		
 		public function expand():void
 		{
-			_toggle.selected = true;
+			if(_expanded) return;
 			
-			changeFoldingState(true);
+			_expanded = true;
+			
+			_toggle.selected = _expanded;
+			this.updateFoldingState();
+		}
+		
+		public function addContent(content:DisplayObject):void
+		{
+			_contentList.push( content );
+			
+			if(_contentArea) _contentArea.addChild(content);
+		}
+		
+		public function removeContent(content:DisplayObject):void
+		{
+			var index:int = _contentList.indexOf( content );
+			if(index >= 0) _contentList.splice(index, 1);
+			
+			if(_contentArea) _contentArea.removeChild(content);
 		}
 		
 		//--- Event Handlers ---
@@ -173,7 +227,8 @@ package com.dreamana.controls
 		
 		protected function onFold(event:MouseEvent):void
 		{
-			changeFoldingState( _toggle.selected );
+			_expanded = _toggle.selected;
+			this.updateFoldingState();
 		}
 		
 		//--- Getter/setters ---
@@ -186,8 +241,14 @@ package com.dreamana.controls
 			if(value) changeState( STATE_NORMAL );
 			else changeState( STATE_DISABLED );
 			
-			//TODO: set children enabled
-			_toggle.enabled = false;
+			_toggle.enabled = value;
+			
+			//set children enabled | disabled state
+			var num:int = _contentList.length;
+			for(var i:int = 0; i < num; ++i) {
+				var content:Object = _contentList[i];
+				if(content && content.hasOwnProperty("enabled")) content["enabled"] = value;
+			}
 		}
 		
 		protected var _draggable:Boolean = true;
@@ -195,8 +256,17 @@ package com.dreamana.controls
 		public function get draggable():Boolean { return _draggable; }
 		public function set draggable(value:Boolean):void {
 			_draggable = value;
-			
-			//TODO:
+			//if(!_draggable) this.stopDrag()
+		}
+		
+		protected var _expanded:Boolean = true;
+		
+		public function get expanded():Boolean { return _expanded; }
+		public function get collapsed():Boolean { return !_expanded; }
+		
+		public function get title():String { return _title; }
+		public function set title(value:String):void {
+			changeTitle(value);
 		}
 	}
 }
