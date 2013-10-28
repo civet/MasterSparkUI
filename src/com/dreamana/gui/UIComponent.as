@@ -1,8 +1,5 @@
 package com.dreamana.gui
 {
-	import com.dreamana.utils.Broadcaster;
-	import com.dreamana.utils.EnterFrameDispatcher;
-	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
@@ -17,9 +14,6 @@ package com.dreamana.gui
 	 */
 	public class UIComponent extends Sprite
 	{
-		protected static var enterFrameDispatcher:EnterFrameDispatcher = new EnterFrameDispatcher();//holder, avoid GC.
-		protected static var enterFrame:Broadcaster = enterFrameDispatcher.enterFrame;
-		
 		protected var _x:int = 0;
 		protected var _y:int = 0;
 		protected var _positionChanged:Boolean = false;
@@ -28,7 +22,7 @@ package com.dreamana.gui
 		protected var _height:int = 0;
 		protected var _sizeChanged:Boolean = false;
 		
-		protected var _isDirty:Boolean = false;
+		protected var _dirty:Boolean = false;
 		
 		protected var _enabled:Boolean = true;
 				
@@ -64,18 +58,17 @@ package com.dreamana.gui
 		 */
 		public function setSize(w:Number, h:Number, deferred:Boolean=true):void
 		{
-			_sizeChanged = (_width != w || _height != h);
+			//BUG FIXED: once _sizeChanged is setted to true, do not change it until update. 
+			if(_width != w || _height != h) _sizeChanged = true;
 			
 			_width = w;
 			_height = h;
-						
+				
 			if(deferred) {
 				invalidate(_sizeChanged);
 			}
 			else {
-				//BUG FIXED
-				if(!_isDirty && _sizeChanged) _isDirty = true;
-				
+				if(_sizeChanged) _dirty = true;
 				update();
 			}
 		}
@@ -88,19 +81,18 @@ package com.dreamana.gui
 		 */		
 		public function invalidate(dirty:Boolean=true):void
 		{
-			//BUG FIXED: once isDirty is setted true, do not change it until redraw. 
-			if(!_isDirty && dirty) _isDirty = true;
-			
-			//this.addEventListener(Event.ENTER_FRAME, onInvalidate);
-			enterFrame.add(update, true);
+			//BUG FIXED: once _dirty is setted to true, do not change it until redraw. 
+			if(dirty) _dirty = true;
+						
+			this.addEventListener(Event.ENTER_FRAME, update);
 		}
 		
 		/**
 		 * Update
 		 */
-		public function update():void
+		public function update(event:Event=null):void
 		{
-			//this.removeEventListener(Event.ENTER_FRAME, onInvalidate);
+			this.removeEventListener(Event.ENTER_FRAME, update);
 			
 			//call only when position changed
 			if(_positionChanged) {
@@ -109,15 +101,15 @@ package com.dreamana.gui
 				super.y = _y;
 			}
 					
-			//call only when size changed
+			///call only when size changed
 			if(_sizeChanged) {
 				_sizeChanged = false;
 				this.dispatchEvent(new Event(Event.RESIZE));
 			}
 			
 			//call if dirty
-			if(_isDirty) {
-				_isDirty = false;
+			if(_dirty) {
+				_dirty = false;
 				redraw();
 			}
 		}

@@ -4,6 +4,7 @@ package test
 	import com.dreamana.controls.Label;
 	import com.dreamana.controls.Panel;
 	import com.dreamana.controls.Scroller;
+	import com.dreamana.controls.layouts.VBoxLayout;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -12,6 +13,7 @@ package test
 	public class TestPanel extends Sprite
 	{
 		private var panel:Panel;
+		private var scroller:Scroller;
 		
 		public function TestPanel()
 		{
@@ -23,13 +25,58 @@ package test
 			if(event) this.removeEventListener(event.type, init);
 			
 			//start
+			
+			//TODO: dragContent scrolling bug
+			
 			panel = new Panel();
 			panel.setSize(200, 200);
 			this.addChild(panel);
 			panel.title = "Panel";
 			
-			//panel.addContent( getScroller() );
-						
+			scroller = getScroller();
+			panel.container.addChild(scroller);
+			
+			new VBoxLayout(10).add(scroller)
+				.updated.add(
+					function(target:VBoxLayout):void
+					{
+						panel.setSize(target.width, target.height + panel.titleBarHeight);
+					}
+				);
+			
+			/*
+			//Accordion Test
+			var vbox:VBoxLayout = new VBoxLayout(0);
+			
+			var onSelect:Function = function(e:Event):void
+			{
+				var index:int = vbox.getElementIndex(e.currentTarget as Panel);
+				if(index >= 0) {
+					var i:int = vbox.numElements;
+					while(i--) {
+						var panel:Panel =  vbox.getElementAt(i) as Panel;
+						if(i == index) panel.expand();
+						else panel.collapse();
+					}
+				}
+			};
+			
+			for(var i:int = 0; i < 5; ++i) {
+				panel = new Panel();
+				panel.setSize(400, 400 * Math.random() + 100);
+				panel.draggable = false;
+				panel.title = "Section " + i;
+				this.addChild(panel);
+				
+				//TODO
+				panel.container.addChild(getScroller(panel.width, panel.height-panel.titleBarHeight));
+				panel.collapse();
+				panel.addEventListener(Event.SELECT, onSelect);
+				
+				vbox.add(panel);
+			}
+			*/
+			
 			//toolbar
 			var btn:Button;
 			
@@ -66,18 +113,19 @@ package test
 			btn.addEventListener(MouseEvent.CLICK, onButtonClick);
 		}
 		
-		private function getScroller():Scroller
+		private function getScroller(w:int=200, h:int=180):Scroller
 		{
 			var image:Sprite = new Sprite();
 			image.graphics.beginBitmapFill( new Texture().bitmapData );
-			image.graphics.drawRect(0, 0, 400, 400);
+			image.graphics.drawRect(0, 0, 380/*400*/, 400);
 			image.graphics.endFill();
 			
 			var scroller:Scroller = new Scroller();
-			scroller.setSize(200, 180);
-			scroller.addContent(image);
-			scroller.dragContent = true;
+			scroller.setSize(w, h);
+			scroller.container.addChild(image);
 			scroller.autoHideScrollBar = true;
+			scroller.dragContent = true;
+			scroller.dragDogear = true;
 						
 			return scroller;
 		}
@@ -93,7 +141,7 @@ package test
 				case "buttonResize":
 					panel.setSize(100 + int(Math.random() * 300), 100 + int(Math.random() * 300));
 					break;
-				
+								
 				case "buttonEnabler":
 					panel.enabled = !panel.enabled;
 					break;

@@ -4,10 +4,13 @@ package com.dreamana.controls
 	import com.dreamana.gui.SkinnableComponent;
 	
 	import flash.display.DisplayObject;
+	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
+	
+	[Event(name="select", type="flash.events.Event")]
 	
 	public class Panel extends SkinnableComponent
 	{
@@ -15,9 +18,9 @@ package com.dreamana.controls
 		public static const STATE_DISABLED:String = "disabled";
 		
 		protected var _titleBar:Sprite;
+		protected var _contentArea:Shape;
 		protected var _toggle:Toggle;
-		protected var _contentArea:Sprite;
-		protected var _contentList:Array = [];
+		protected var _container:Container;
 		
 		protected var _title:String;
 		protected var _titleWidth:int;
@@ -48,18 +51,16 @@ package com.dreamana.controls
 			
 			//view
 			this.addChildren();
+			
+			_container = new Container();
+			_container.y = _titleHeight;
+			this.addChild(_container);
 		}
 		
 		override protected function partAdded(partName:String, instance:Object):void
 		{
 			if(partName == "contentArea") {
-				_contentArea = instance as Sprite;
-				
-				var num:int = _contentList.length;
-				for(var i:int = 0; i < num; ++i) {
-					var content:DisplayObject = _contentList[i];
-					if(content) _contentArea.addChild( content );
-				}
+				_contentArea = instance as Shape;
 			}
 			else if(partName == "titleBar") {
 				_titleBar = instance as Sprite;
@@ -74,8 +75,7 @@ package com.dreamana.controls
 		override protected function partRemoved(partName:String, instance:Object):void
 		{
 			if(partName == "contentArea") {
-				_contentArea = instance as Sprite;
-				
+				_contentArea = instance as Shape;
 			}
 			else if(partName == "titleBar") {
 				_titleBar = instance as Sprite;
@@ -97,6 +97,9 @@ package com.dreamana.controls
 			
 			//update height
 			this.updateFoldingState();
+			
+			//position container
+			_container.y = _titleHeight;
 		}
 		
 		protected function changeState(state:String):void
@@ -149,18 +152,20 @@ package com.dreamana.controls
 		
 		protected function updateFoldingState():void
 		{
-			var stateChanged:Boolean = (_contentArea.visible != _expanded);
+			var stateChanged:Boolean = (_container.visible != _expanded);
 			if(stateChanged) {
 				//simply hide | show
-				_contentArea.visible = _expanded;
+				_container.visible = _expanded;
 			
-				//update height			
-				_height = _expanded ? (_titleHeight + _contentHeight) : _titleHeight;
-				
-				//dispatch resize event
-				this.dispatchEvent(new Event(Event.RESIZE));
-			}			
-						
+				_contentArea.visible = _expanded;
+			}
+			
+			//update height			
+			_height = _expanded ? (_titleHeight + _contentHeight) : _titleHeight;
+			
+			//dispatch resize event
+			if(stateChanged) this.dispatchEvent(new Event(Event.RESIZE));
+									
 			//fix position
 			if(_draggable) {
 				var bounds:Rectangle = getDragBounds();
@@ -194,21 +199,6 @@ package com.dreamana.controls
 			this.updateFoldingState();
 		}
 		
-		public function addContent(content:DisplayObject):void
-		{
-			_contentList.push( content );
-			
-			if(_contentArea) _contentArea.addChild(content);
-		}
-		
-		public function removeContent(content:DisplayObject):void
-		{
-			var index:int = _contentList.indexOf( content );
-			if(index >= 0) _contentList.splice(index, 1);
-			
-			if(_contentArea) _contentArea.removeChild(content);
-		}
-		
 		//--- Event Handlers ---
 		
 		protected function onDrag(event:MouseEvent):void
@@ -229,6 +219,9 @@ package com.dreamana.controls
 		{
 			_expanded = _toggle.selected;
 			this.updateFoldingState();
+			
+			//dispatch select event
+			if(_expanded) this.dispatchEvent(new Event(Event.SELECT));
 		}
 		
 		//--- Getter/setters ---
@@ -242,13 +235,7 @@ package com.dreamana.controls
 			else changeState( STATE_DISABLED );
 			
 			_toggle.enabled = value;
-			
-			//set children enabled | disabled state
-			var num:int = _contentList.length;
-			for(var i:int = 0; i < num; ++i) {
-				var content:Object = _contentList[i];
-				if(content && content.hasOwnProperty("enabled")) content["enabled"] = value;
-			}
+			_container.enabled = value;
 		}
 		
 		protected var _draggable:Boolean = true;
@@ -268,5 +255,10 @@ package com.dreamana.controls
 		public function set title(value:String):void {
 			changeTitle(value);
 		}
+		
+		public function get titleBarWidth():int{ return _titleWidth; }
+		public function get titleBarHeight():int{ return _titleHeight; }
+		
+		public function get container():Container { return _container; };
 	}
 }

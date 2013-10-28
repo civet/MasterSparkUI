@@ -6,39 +6,40 @@ package com.dreamana.controls.skins
 	import com.dreamana.gui.UISkin;
 	
 	import flash.display.Graphics;
+	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.text.TextFieldAutoSize;
 	
 	public class PanelSkin extends UISkin
 	{
 		//element
-		protected var _contentArea:Sprite;
 		protected var _titleBar:Sprite;
 		protected var _title:Label;
 		protected var _toggle:Toggle;
+		protected var _contentArea:Shape;
 		
 		//style
-		protected var _contentAreaColor:int;
-		protected var _contentAreaFilters:Array;
 		protected var _titleBarColor:int;
 		protected var _titleBarFilters:Array;
+		protected var _contentAreaColor:int;
+		protected var _contentAreaFilters:Array;
 		
 		public function PanelSkin()
 		{
 			//default setting
-			_contentAreaColor = 0xeeeeee;
-			_contentAreaFilters = [getShadow(1)];
 			_titleBarColor = 0xffffff;
 			_titleBarFilters = [getShadow(1)];
-			
+			_contentAreaColor = 0xffffff;
+			_contentAreaFilters = [getShadow(1)];
+						
 			//elements
-			_contentArea = new Sprite();
 			_titleBar = new Sprite();
 			_title = new Label();
 			_title.autoSize = TextFieldAutoSize.NONE;
 			_toggle = new Toggle();
 			_toggle.skin = new ExpandButtonSkin();
 			_toggle.selected = true;
+			_contentArea = new Shape();
 			
 			//elementList
 			this.addPart("contentArea", _contentArea);

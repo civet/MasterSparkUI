@@ -33,10 +33,8 @@ package test
 			this.addChild(scroller);
 			
 			scroller.setSize(200, 200);
-			scroller.addContent(image);
+			scroller.container.addChild(image);
 			
-			scroller.dragContent = true;
-						
 			//toolbar
 			var btn:Button;
 			var tgl:Toggle;
@@ -64,6 +62,22 @@ package test
 			btn.y = 60;
 			this.addChild(btn);
 			btn.addEventListener(MouseEvent.CLICK, onButtonClick);
+			
+			tgl = new Toggle();
+			tgl.name = "buttonDragContent";
+			tgl.addChild(new Label("Drag Content"));
+			tgl.x = 540;
+			tgl.y = 90;
+			this.addChild(tgl);
+			tgl.addEventListener(MouseEvent.CLICK, onButtonClick);
+			
+			tgl = new Toggle();
+			tgl.name = "buttonDragDogear";
+			tgl.addChild(new Label("Drag Dogear"));
+			tgl.x = 540;
+			tgl.y = 120;
+			this.addChild(tgl);
+			tgl.addEventListener(MouseEvent.CLICK, onButtonClick);
 		}
 		
 		private function onButtonClick(event:MouseEvent):void
@@ -82,6 +96,14 @@ package test
 				
 				case "buttonEnabler":
 					scroller.enabled = !scroller.enabled;
+					break;
+				
+				case "buttonDragContent":
+					scroller.dragContent = Toggle(target).selected;
+					break;
+				
+				case "buttonDragDogear":
+					scroller.dragDogear = Toggle(target).selected;
 					break;
 			}
 		}
