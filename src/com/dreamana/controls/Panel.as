@@ -221,7 +221,8 @@ package com.dreamana.controls
 			this.updateFoldingState();
 			
 			//dispatch select event
-			if(_expanded) this.dispatchEvent(new Event(Event.SELECT));
+			//if(_expanded) 
+				this.dispatchEvent(new Event(Event.SELECT));
 		}
 		
 		//--- Getter/setters ---
@@ -258,6 +259,9 @@ package com.dreamana.controls
 		
 		public function get titleBarWidth():int{ return _titleWidth; }
 		public function get titleBarHeight():int{ return _titleHeight; }
+		
+		public function get contentWidth():int{ return _contentWidth; }
+		public function get contentHeight():int{ return _contentHeight; }
 		
 		public function get container():Container { return _container; };
 	}

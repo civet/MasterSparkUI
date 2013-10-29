@@ -25,9 +25,6 @@ package test
 			if(event) this.removeEventListener(event.type, init);
 			
 			//start
-			
-			//TODO: dragContent scrolling bug
-			
 			panel = new Panel();
 			panel.setSize(200, 200);
 			this.addChild(panel);
@@ -37,46 +34,14 @@ package test
 			panel.container.addChild(scroller);
 			
 			new VBoxLayout(10).add(scroller)
-				.updated.add(
-					function(target:VBoxLayout):void
+				.addEventListener(Event.RESIZE, 
+					function(e:Event):void
 					{
+						var target:VBoxLayout = e.currentTarget as VBoxLayout;
 						panel.setSize(target.width, target.height + panel.titleBarHeight);
 					}
 				);
-			
-			/*
-			//Accordion Test
-			var vbox:VBoxLayout = new VBoxLayout(0);
-			
-			var onSelect:Function = function(e:Event):void
-			{
-				var index:int = vbox.getElementIndex(e.currentTarget as Panel);
-				if(index >= 0) {
-					var i:int = vbox.numElements;
-					while(i--) {
-						var panel:Panel =  vbox.getElementAt(i) as Panel;
-						if(i == index) panel.expand();
-						else panel.collapse();
-					}
-				}
-			};
-			
-			for(var i:int = 0; i < 5; ++i) {
-				panel = new Panel();
-				panel.setSize(400, 400 * Math.random() + 100);
-				panel.draggable = false;
-				panel.title = "Section " + i;
-				this.addChild(panel);
-				
-				//TODO
-				panel.container.addChild(getScroller(panel.width, panel.height-panel.titleBarHeight));
-				panel.collapse();
-				panel.addEventListener(Event.SELECT, onSelect);
-				
-				vbox.add(panel);
-			}
-			*/
-			
+						
 			//toolbar
 			var btn:Button;
 			
@@ -117,7 +82,7 @@ package test
 		{
 			var image:Sprite = new Sprite();
 			image.graphics.beginBitmapFill( new Texture().bitmapData );
-			image.graphics.drawRect(0, 0, 380/*400*/, 400);
+			image.graphics.drawRect(0, 0, 400, 400);
 			image.graphics.endFill();
 			
 			var scroller:Scroller = new Scroller();

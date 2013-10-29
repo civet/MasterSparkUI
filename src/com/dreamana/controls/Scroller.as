@@ -177,7 +177,7 @@ package com.dreamana.controls
 			if(vscrollbar.visible) w -= vscrollbar.width;
 			if(w > 0) w = 0;
 			
-			var h:int =  _height - _container.width;
+			var h:int =  _height - _container.height;//
 			if(hscrollbar.visible) h -= hscrollbar.height;
 			if(h > 0) h = 0;
 			
