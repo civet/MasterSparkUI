@@ -1,7 +1,6 @@
 package com.dreamana.gui
 {
 	import com.dreamana.gui.UITextureProvider;
-	import com.dreamana.utils.Broadcaster;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;

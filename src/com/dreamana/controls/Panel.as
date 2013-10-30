@@ -91,9 +91,9 @@ package com.dreamana.controls
 		{
 			super.setSize(w, h, deferred);
 			
-			//keep titleBar height
+			//keep titleBar height (BUG FIXED: do not change contentHeight when collapsed)
 			changeTitleSize(w, _titleHeight);
-			changeContentSize(w, h - _titleHeight);
+			changeContentSize(w, _expanded ? h - _titleHeight : _contentHeight);
 			
 			//update height
 			this.updateFoldingState();

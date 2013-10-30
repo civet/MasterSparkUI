@@ -127,7 +127,7 @@ package com.dreamana.controls
 			for(var i:int = 0; i < num; ++i)
 			{
 				var panel:Panel = _vbox.getElementAt(i) as Panel;
-				panel.setSize( value, panel.titleBarHeight + panel.contentHeight );
+				panel.width = value; //BUG FIXED: panel setSize() bug fixed.
 			}	
 			
 			super.width = value;

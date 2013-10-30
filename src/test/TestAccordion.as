@@ -1,7 +1,6 @@
 package test
 {
 	import com.dreamana.controls.Accordion;
-	import com.dreamana.controls.Panel;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -30,12 +29,14 @@ package test
 			accordion.addPanel(accordion.createPanel(200, 400, "Section 3"));
 			accordion.addPanel(accordion.createPanel(200, 100, "Section 4"));
 			
+			accordion.width = 300;
+			
 			accordion.addEventListener(Event.RESIZE, onAccordionResize);
 		}
 		
 		protected function onAccordionResize(event:Event):void
 		{
-			trace(accordion.width, accordion.height);
+			//trace(accordion.width, accordion.height);
 		}
 	}
 }

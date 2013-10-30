@@ -9,13 +9,13 @@ package com.dreamana.gui
 	import flash.geom.Rectangle;
 	
 	/**
-	 * Skin Class for MasterSpark GUI Component
+	 * Base Class for Skin
 	 * 
 	 * only skin parts would be added to DisplayList.
 	 * inherited from UIComponent for using Deferred Rendering feature.
 	 * 
 	 * @author civet (dreamana.com)
-	 */	
+	 */
 	public class UISkin extends UIComponent
 	{
 		public function UISkin()

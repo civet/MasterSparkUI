@@ -6,7 +6,7 @@ package com.dreamana.gui
 	[Event(name="resize", type="flash.events.Event")]
 	
 	/**
-	 * Base Class of MasterSpark GUI Component
+	 * Base Class for MasterSpark GUI Components
 	 * 
 	 * inspired by MinimalComps (https://github.com/minimalcomps)
 	 * 
@@ -101,7 +101,7 @@ package com.dreamana.gui
 				super.y = _y;
 			}
 					
-			///call only when size changed
+			//call only when size changed
 			if(_sizeChanged) {
 				_sizeChanged = false;
 				this.dispatchEvent(new Event(Event.RESIZE));
