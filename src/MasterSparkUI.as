@@ -30,7 +30,8 @@ package
 			//this.addChild(new TestScroller());
 			//this.addChild(new TestPanel());
 			//this.addChild(new TestBoxLayout());
-			this.addChild(new TestAccordion());
+			//this.addChild(new TestAccordion());
+			this.addChild(new TestProgressBar());
 		}
 	}
 }
