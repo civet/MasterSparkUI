@@ -1,15 +1,17 @@
 MasterSparkUI
 =============
-  a simple and extensible GUI framework for ActionScript3 projects.
-  a totally refactored version of <a href="http://code.google.com/p/mono/" target="_blank">MonoUI</a>
+  a simple and extensible GUI framework for ActionScript3 projects. (a totally refactored version of <a href="http://code.google.com/p/mono/" target="_blank">MonoUI</a>)
+  <br/><br/>Now is under construction
 
 Features
 ===============
-  Custom skin class
-  Runtime skinning
-  Scale9Gird image support
-  Spritesheet support (coming soon)
-  Components for mobile project (coming soon)
+<ul>
+  <li>Custom skin class</li>
+  <li>Runtime skinning</li>
+  <li>Scale9Gird image support</li>
+  <li>Spritesheet support (coming soon)</li>
+  <li>Components for mobile project (coming soon)</li>
+</ul>
 
 Demos
 ===============
