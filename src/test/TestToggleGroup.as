@@ -126,7 +126,7 @@ package test
 					var numItems:int = group.numItems;
 					for(var i:int=0; i < numItems; ++i)
 					{
-						var item:Toggle = group.getItem(i);
+						var item:Toggle = group.getItem(i) as Toggle;
 						if(item.skin is ToggleButtonSkin) {
 							item.skin = new CheckBoxSkin();
 						}

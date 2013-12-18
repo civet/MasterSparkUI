@@ -3,8 +3,7 @@ package com.dreamana.controls.layouts
 	import com.dreamana.gui.UILayout;
 	
 	import flash.events.Event;
-
-	[Event(name="resize", type="flash.events.Event")]
+	
 	
 	public class BoxLayout extends UILayout
 	{		
@@ -27,6 +26,7 @@ package com.dreamana.controls.layouts
 			
 		//--- Getter/setters ---
 		
+		override public function get x():Number { return _x; }
 		override public function set x(value:Number):void {
 			//super.x = value;
 			
@@ -35,10 +35,11 @@ package com.dreamana.controls.layouts
 			this.invalidate();
 		}
 		
+		override public function get y():Number { return _y; }
 		override public function set y(value:Number):void {
 			//super.y = value;
 			
-			//change origin-y only, do not change displayobject.x
+			//change origin-y only, do not change displayobject.y
 			_y = Math.round(value);
 			this.invalidate();
 		}

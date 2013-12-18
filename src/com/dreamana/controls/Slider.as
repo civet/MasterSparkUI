@@ -183,7 +183,9 @@ package com.dreamana.controls
 			else {
 				_value = 1.0 - _handle.y / (_height - _handleHeight);
 			}
-			
+						
+			if(isNaN(_value)) { _value = v; return; }//Bug fix: NaN != NaN always evaluates to true.
+						
 			//dispatch
 			if(_value != v) this.dispatchEvent(new Event(Event.CHANGE));
 		}
@@ -205,6 +207,8 @@ package com.dreamana.controls
 				_handle.y = Math.round(py);
 				_value = 1.0 - _handle.y / (_height - _handleHeight);
 			}
+			
+			if(isNaN(_value)) { _value = v; return; }//Bug fix: NaN != NaN always evaluates to true.
 			
 			//dispatch
 			if(_value != v) this.dispatchEvent(new Event(Event.CHANGE));

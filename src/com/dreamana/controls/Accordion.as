@@ -5,15 +5,15 @@ package com.dreamana.controls
 	
 	import flash.events.Event;
 	
-	[Event(name="resize", type="flash.events.Event")]
 	
 	public class Accordion extends UIComponent
 	{
-		protected var _vbox:VBoxLayout;
+		protected var _layout:VBoxLayout;
 		
 		public function Accordion()
 		{
-			_vbox = new VBoxLayout();
+			_layout = new VBoxLayout();
+			_layout.addEventListener(Event.RESIZE, onLayoutResize);
 		}
 		
 		public function createPanel(w:int, h:int, title:String=""):Panel
@@ -26,7 +26,7 @@ package com.dreamana.controls
 		
 		public function addPanel(panel:Panel):Panel
 		{
-			return addPanelAt(panel, _vbox.numElements);
+			return addPanelAt(panel, _layout.numElements);
 		}
 		
 		public function addPanelAt(panel:Panel, index:int):Panel
@@ -35,11 +35,11 @@ package com.dreamana.controls
 			panel.collapse();
 			panel.addEventListener(Event.SELECT, onPanelSelect);
 			
-			_vbox.addElementAt(panel, index);
+			_layout.addElementAt(panel, index);
 			
 			this.addChildAt(panel, index);
 			
-			updateSize();
+			//updateSize();
 			
 			return panel;
 		}
@@ -47,7 +47,7 @@ package com.dreamana.controls
 		public function removePanel(panel:Panel):Panel
 		{
 			var panel:Panel;
-			var index:int = _vbox.getElementIndex(panel);
+			var index:int = _layout.getElementIndex(panel);
 			if(index >= 0) {
 				panel = removePanelAt(index);
 			}
@@ -56,56 +56,35 @@ package com.dreamana.controls
 		
 		public function removePanelAt(index:int):Panel
 		{
-			var panel:Panel = _vbox.removeElementAt(index) as Panel;
+			var panel:Panel = _layout.removeElementAt(index) as Panel;
 			
 			this.removeChild(panel);
 			
-			updateSize();
+			//updateSize();
 			
 			return panel;
 		}
 		
 		public function getPanelAt(index:int):Panel
 		{
-			return _vbox.getElementAt(index) as Panel;
+			return _layout.getElementAt(index) as Panel;
 		}
 		
 		public function getPanelIndex(panel:Panel):int
 		{
-			return _vbox.getElementIndex(panel);
-		}
-		
-		protected function updateSize():void
-		{
-			var oldWidth:Number = _width;
-			var oldHeight:Number = _height;
-			
-			_width = 0;
-			_height = 0;
-			var num:int = _vbox.numElements;
-			for(var i:int = 0; i < num; ++i)
-			{
-				var panel:Panel = _vbox.getElementAt(i) as Panel;
-				
-				_width = (panel.width > _width)? panel.width : _width;
-				_height += panel.height;
-			}
-			
-			//dispatch
-			if(_width != oldWidth || _height != oldHeight)
-				this.dispatchEvent(new Event(Event.RESIZE));
+			return _layout.getElementIndex(panel);
 		}
 		
 		//--- Event Handlers ---
 		
 		protected function onPanelSelect(event:Event):void
 		{
-			var index:int = _vbox.getElementIndex( event.currentTarget );
+			var index:int = _layout.getElementIndex( event.currentTarget );
 			if(index >= 0) {
-				var num:int = _vbox.numElements;
+				var num:int = _layout.numElements;
 				for(var i:int = 0; i < num; ++i)
 				{
-					var panel:Panel = _vbox.getElementAt(i) as Panel;
+					var panel:Panel = _layout.getElementAt(i) as Panel;
 					
 					if(i == index) {
 						if(!collapsible) panel.expand();
@@ -113,8 +92,13 @@ package com.dreamana.controls
 					else panel.collapse();
 				}
 				
-				updateSize();
+				//updateSize();
 			}
+		}
+		
+		protected function onLayoutResize(event:Event):void
+		{
+			this.setSize(_layout.width, _layout.height);
 		}
 		
 		//--- Getter/Setters ---
@@ -123,10 +107,10 @@ package com.dreamana.controls
 		
 		override public function set width(value:Number):void
 		{
-			var num:int = _vbox.numElements;
+			var num:int = _layout.numElements;
 			for(var i:int = 0; i < num; ++i)
 			{
-				var panel:Panel = _vbox.getElementAt(i) as Panel;
+				var panel:Panel = _layout.getElementAt(i) as Panel;
 				panel.width = value; //BUG FIXED: panel setSize() bug fixed.
 			}	
 			

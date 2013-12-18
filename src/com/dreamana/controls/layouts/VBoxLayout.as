@@ -18,30 +18,31 @@ package com.dreamana.controls.layouts
 			_alignment = alignment;
 		}
 		
-		override protected function redraw():void
+		override protected function updateSize():void
 		{
 			var i:int, num:int;
 			var element:Object;
 			
 			//measure width and height
-			var oldWidth:Number = _width;
-			var oldHeight:Number = _height;
-			
-			_width = 0;
-			_height = 0;
+			var w:int = 0;
+			var h:int = 0;
 			num = _elements.length;
 			for(i = 0; i < num; ++i)
 			{
 				element = _elements[i];
 				
-				if(element.width > _width) _width = element.width;
-				_height += element.height + _spacing;
+				if(element.width > w) w = element.width;
+				h += element.height + _spacing;
 			}
-			_height -= _spacing;
+			h -= _spacing;
 			
-			//dispatch if sizeChanged
-			if(_width != oldWidth || _height != oldHeight) this.dispatchEvent(new Event(Event.RESIZE));
-			
+			this.setSize(w, h);
+		}
+		
+		override protected function redraw():void
+		{
+			var i:int, num:int;
+			var element:Object;
 			
 			//position elements
 			var originX:int = _x;
@@ -79,13 +80,13 @@ package com.dreamana.controls.layouts
 		public function get spacing():Number { return _spacing; }
 		public function set spacing(value:Number):void {
 			_spacing = value;
-			this.invalidate();
+			this.updateSize();
 		}
 		
 		public function get alignment():String { return _alignment; }
 		public function set alignment(value:String):void {
 			_alignment = value;
-			this.invalidate();
+			this.updateSize();
 		}
 	}
 }

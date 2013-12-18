@@ -51,7 +51,7 @@ package com.dreamana.controls
 			this.addChild(hscrollbar);
 			this.addChild(vscrollbar);
 			
-			_container.addEventListener(Event.CHANGE, onContainerChange);
+			_container.addEventListener(Event.RESIZE, onContainerResize);
 			hscrollbar.addEventListener(Event.CHANGE, onHScrollBarChange);
 			vscrollbar.addEventListener(Event.CHANGE, onVScrollBarChange);
 		}
@@ -205,7 +205,7 @@ package com.dreamana.controls
 		
 		//--- Event Handlers ---
 		
-		protected function onContainerChange(event:Event):void
+		protected function onContainerResize(event:Event):void
 		{
 			invalidate();
 		}
@@ -219,7 +219,7 @@ package com.dreamana.controls
 		}
 		
 		protected function onVScrollBarChange(event:Event):void
-		{
+		{			
 			if(hscrollbar.visible)
 				_container.y = -(1.0 - vscrollbar.value) * (_container.height - (_height - hscrollbar.height));
 			else 
@@ -294,6 +294,7 @@ package com.dreamana.controls
 			//enabled | disabled state
 			hscrollbar.enabled = _enabled;
 			vscrollbar.enabled = _enabled;
+			container.enabled = _enabled;
 		}
 		
 		protected var _autoHideScrollBar:Boolean = false;
@@ -328,6 +329,6 @@ package com.dreamana.controls
 			else dogear.removeEventListener(MouseEvent.MOUSE_DOWN, onDogearDrag);
 		}
 
-		public function get container():Sprite { return _container; }
+		public function get container():Container { return _container; }
 	}
 }

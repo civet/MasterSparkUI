@@ -130,7 +130,7 @@ package test
 				
 				case "buttonHyperlink":
 					button.skin = new ButtonHyperlinkSkin();
-					button.skin.setStyle("text", "超链接按钮");
+					button.skin.setStyle("text", "Click Me!");
 					break;
 				
 				case "buttonDefault":

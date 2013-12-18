@@ -94,6 +94,8 @@ package com.dreamana.controls
 			if(_value < _minimum) _value = allowValueWrap ? _maximum : _minimum;
 			else if(_value > _maximum) _value = allowValueWrap ? _minimum : _maximum;
 			
+			if(isNaN(_value)) return;//Bug fix: NaN != NaN always evaluates to true.
+			
 			//dispatch
 			if(_value != v) this.dispatchEvent(new Event(Event.CHANGE));
 		}

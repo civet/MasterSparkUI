@@ -31,7 +31,8 @@ package
 			//this.addChild(new TestPanel());
 			//this.addChild(new TestBoxLayout());
 			//this.addChild(new TestAccordion());
-			this.addChild(new TestProgressBar());
+			//this.addChild(new TestProgressBar());
+			this.addChild(new TestList());
 		}
 	}
 }

@@ -17,17 +17,17 @@ package com.dreamana.controls
 		{
 		}
 		
-		public function addItem(item:Toggle):void
+		public function addItem(item:IToggle):void
 		{
 			_items[_items.length] = item;
 			
 			//change toggle mode
-			item.toggleEnabled = false;
+			item.autoToggleEnabled = false;
 			
 			item.addEventListener(MouseEvent.CLICK, onItemClick);
 		}
 		
-		public function removeItem(item:Toggle):void
+		public function removeItem(item:IToggle):void
 		{
 			var index:int = _items.indexOf(item);
 			if(index >= 0) {
@@ -37,12 +37,26 @@ package com.dreamana.controls
 			}
 		}
 		
-		public function getItem(index:int):Toggle
+		public function removeAllItems():Array
+		{
+			var item:IToggle;
+			var i:int = _items.length;
+			while(i--) {
+				item = _items[i];
+				item.removeEventListener(MouseEvent.CLICK, onItemClick);
+			}
+			
+			var removed:Array = _items.concat();
+			_items.length = 0;
+			return removed;
+		}
+		
+		public function getItem(index:int):IToggle
 		{
 			return _items[index];
 		}
-		
-		public function select(item:Toggle):void
+				
+		public function select(item:IToggle):void
 		{
 			var changed:Boolean = (_selectedItem != item);
 			
@@ -96,7 +110,7 @@ package com.dreamana.controls
 		
 		protected function onItemClick(event:MouseEvent):void
 		{
-			this.select( event.currentTarget as Toggle);
+			this.select( event.currentTarget as IToggle);
 		}
 		
 		//--- Getter/setters ---
@@ -108,15 +122,15 @@ package com.dreamana.controls
 			_enabled = value;
 			
 			var i:int = _items.length;
-			while(i--) Toggle( _items[i] ).enabled = _enabled;
+			while(i--) IToggle( _items[i] ).enabled = _enabled;
 		}
 		
 		public function get numItems():int { return _items.length; }
 		
-		protected var _selectedItem:Toggle;
+		protected var _selectedItem:IToggle;
 
-		public function get selectedItem():Toggle { return _selectedItem; }
-		public function set selectedItem(value:Toggle):void {
+		public function get selectedItem():IToggle { return _selectedItem; }
+		public function set selectedItem(value:IToggle):void {
 			this.select( value );
 		}
 		

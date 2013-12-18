@@ -34,7 +34,7 @@ package com.dreamana.gui
 			
 			element.addEventListener(Event.RESIZE, onElementResize);
 			
-			this.invalidate();
+			this.updateSize();
 			
 			return element;
 		}
@@ -57,9 +57,26 @@ package com.dreamana.gui
 				element = removed[0];
 				element.removeEventListener(Event.RESIZE, onElementResize);
 				
-				this.invalidate();
+				this.updateSize();
 			}
 			return element;
+		}
+		
+		public function removeAllElements():Array
+		{
+			var element:Object;
+			var i:int = _elements.length;
+			while(i--) {
+				element = _elements[i];
+				element.removeEventListener(Event.RESIZE, onElementResize);
+			}
+			
+			var removed:Array = _elements.concat();
+			_elements.length = 0;
+			
+			this.updateSize();
+			
+			return removed;
 		}
 		
 		public function getElementAt(index:int):Object
@@ -72,11 +89,19 @@ package com.dreamana.gui
 			return _elements.indexOf(element);
 		}
 		
+		protected function updateSize():void
+		{
+			//override in subclasses
+			
+			//1. measure
+			//2. invalidate
+		}
+		
 		//--- Event Handlers ---
 		
 		protected function onElementResize(event:Event):void
 		{
-			this.invalidate();
+			this.updateSize();
 		}
 		
 		//--- Getter/setters ---

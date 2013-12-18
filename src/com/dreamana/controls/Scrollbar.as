@@ -113,6 +113,8 @@ package com.dreamana.controls
 		
 		protected function onSpinnerChange(event:Event):void
 		{
+			if(slider.percent >= 1.0) return; 
+			
 			slider.value = spinner.value;
 			
 			//dispatch
@@ -122,7 +124,7 @@ package com.dreamana.controls
 		protected function onSliderChange(event:Event):void
 		{
 			spinner.value = slider.value;
-			
+						
 			//dispatch
 			this.dispatchEvent(new Event(Event.CHANGE));
 		}
