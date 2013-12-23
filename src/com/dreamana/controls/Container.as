@@ -11,64 +11,16 @@ package com.dreamana.controls
 	
 	public class Container extends UIComponent
 	{
-		
 		public function Container()
 		{
 			this.addEventListener(Event.ADDED, onAdded);
 			this.addEventListener(Event.REMOVED, onRemoved);
 		}
 		
-		/*
-		override public function addChild(child:DisplayObject):DisplayObject
-		{
-			var child:DisplayObject = super.addChild(child);
-			applyChange();
-			
-			return child;
-		}
-		
-		override public function addChildAt(child:DisplayObject, index:int):DisplayObject
-		{
-			var child:DisplayObject = super.addChildAt(child, index);
-			applyChange();
-			
-			return child;
-		}
-		
-		override public function removeChild(child:DisplayObject):DisplayObject
-		{
-			var child:DisplayObject = super.removeChild(child);
-			applyChange();
-			
-			return child;
-		}
-		
-		override public function removeChildAt(index:int):DisplayObject
-		{
-			var child:DisplayObject = super.removeChildAt(index);
-			applyChange();
-			
-			return child;
-		}*/
-		
-		/* buggy: cause deferred rendering 
-		protected function applyChange():void
-		{
-			//update size
-			var bounds:Rectangle = this.getBounds( this.parent );
-			_width = bounds.width;
-			_height = bounds.height;
-			
-			//trace(_width, _height);
-			
-			//notify change
-			if(this.hasEventListener(Event.CHANGE)) this.dispatchEvent(new Event(Event.CHANGE));
-		}*/
-		
 		protected function updateSize():void
 		{
-			var w:int = _width;
-			var h:int = _height;
+			var w:int = 0;//bug fixed
+			var h:int = 0;//bug fixed
 			var num:int = this.numChildren;
 			for(var i:int = 0; i < num; ++i) {
 				var child:DisplayObject = this.getChildAt(i);
@@ -96,12 +48,23 @@ package com.dreamana.controls
 				
 				this.setSize(w, h);
 			}
+			
+			var comp:UIComponent = event.target as UIComponent;
+			if(comp) comp.addEventListener(Event.RESIZE, onChildResize);
 		}
 		
 		protected function onRemoved(event:Event):void
 		{
 			if(event.target == this) return;
 			
+			updateSize();
+			
+			var comp:UIComponent = event.target as UIComponent;
+			if(comp) comp.removeEventListener(Event.RESIZE, onChildResize);
+		}
+		
+		protected function onChildResize(event:Event):void
+		{
 			updateSize();
 		}
 		

@@ -5,6 +5,7 @@ package test
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	
 	public class TestList extends Sprite
 	{
@@ -41,6 +42,7 @@ package test
 			this.addChild(scroller);
 			//scroller.enabled = false;
 		}
+		
 	}
 }
 

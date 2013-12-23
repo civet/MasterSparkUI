@@ -95,7 +95,7 @@ package com.dreamana.controls
 			
 			//reset scrollbar position and size
 			readjustScrollBars();
-			
+						
 			//reset content position
 			positionContent();
 		}

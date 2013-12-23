@@ -3,6 +3,9 @@ package com.dreamana.controls
 	import com.dreamana.controls.layouts.VBoxLayout;
 	import com.dreamana.gui.UIComponent;
 	import com.dreamana.gui.UISkin;
+	
+	import flash.events.Event;
+	
 
 	public class List extends UIComponent
 	{
@@ -74,10 +77,15 @@ package com.dreamana.controls
 			removeAllItems();
 			_itemPool.length = 0;
 			
+			var w:int = _layout.width;
+			var h:int = _layout.height;
+			
 			//update
 			this.redraw();
+			
+			if(w != _layout.width || h != _layout.height) this.dispatchEvent(new Event(Event.RESIZE));
 		}
-		
+				
 		//--- Object Pool ----		
 		
 		protected var _itemPool:Array = [];
@@ -105,7 +113,12 @@ package com.dreamana.controls
 		{
 			_listData = value;
 			
+			var w:int = _layout.width;
+			var h:int = _layout.height;
+			
 			this.redraw();
+			
+			if(w != _layout.width || h != _layout.height) this.dispatchEvent(new Event(Event.RESIZE));
 		}
 		
 		override public function get width():Number { return _layout.width; }
