@@ -41,8 +41,15 @@ package test
 			scroller.autoHideScrollBar = true;
 			this.addChild(scroller);
 			//scroller.enabled = false;
+			
+			list.group.multiselectable = true;
+			list.group.addEventListener(Event.CHANGE, onChange);
 		}
 		
+		private function onChange(event:Event):void
+		{
+			trace(event.currentTarget.selectedIndices);
+		}
 	}
 }
 

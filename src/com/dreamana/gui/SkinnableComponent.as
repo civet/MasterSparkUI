@@ -104,7 +104,7 @@ package com.dreamana.gui
 			
 			var startIndex:int = 0;
 			var part:DisplayObject = _skin.getPartByIndex(0) as DisplayObject;
-			if(this.contains(part)) startIndex = this.getChildIndex(part);
+			if(part && this.contains(part)) startIndex = this.getChildIndex(part);
 			
 			detachSkin();
 			

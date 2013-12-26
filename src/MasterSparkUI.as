@@ -32,7 +32,8 @@ package
 			//this.addChild(new TestBoxLayout());
 			//this.addChild(new TestAccordion());
 			//this.addChild(new TestProgressBar());
-			this.addChild(new TestList());
+			//this.addChild(new TestList());
+			this.addChild(new TestAutocomplete());
 		}
 	}
 }

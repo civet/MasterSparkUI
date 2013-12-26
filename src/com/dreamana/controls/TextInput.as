@@ -4,7 +4,6 @@ package com.dreamana.controls
 	import com.dreamana.gui.SkinnableComponent;
 	
 	import flash.events.Event;
-	import flash.events.TextEvent;
 	import flash.text.TextField;
 	
 	
@@ -43,7 +42,7 @@ package com.dreamana.controls
 				
 				_textfield.text = _text;
 				
-				_textfield.addEventListener(TextEvent.TEXT_INPUT, onTextInput);
+				//_textfield.addEventListener(Event.CHANGE, onTextChange);
 			}
 		}
 		
@@ -52,7 +51,7 @@ package com.dreamana.controls
 			if(partName == "textfield") {
 				_textfield = instance as TextField;
 								
-				_textfield.removeEventListener(TextEvent.TEXT_INPUT, onTextInput);
+				//_textfield.removeEventListener(Event.CHANGE, onTextChange);
 				
 				_text = _textfield.text;
 			}
@@ -83,12 +82,15 @@ package com.dreamana.controls
 			applyTextFieldProps();
 		}
 		
+		public function callTextFieldMethod(methodName:String, ...args):*
+		{
+			var func:Function = _textfield[methodName];
+			return (func != null) ? func.apply(null, args) : null;
+		}
+						
 		//--- EVENT HANDLERS ---
 		
-		protected function onTextInput(event:TextEvent):void
-		{
-			if(hasEventListener(event.type)) this.dispatchEvent( event );
-		}
+		
 		
 		//--- GETTER/SETTERS ---
 		
@@ -102,7 +104,7 @@ package com.dreamana.controls
 		}
 		
 		public function get text():String
-		{ 
+		{
 			if(_textfield) _text = _textfield.text;
 			return _text;
 		}
@@ -112,5 +114,7 @@ package com.dreamana.controls
 			_text = value;
 			if(_textfield) _textfield.text = _text;
 		}
+		
+		public function get textField():TextField { return _textfield; }
 	}
 }

@@ -1,5 +1,7 @@
 package com.dreamana.controls
 {
+	import com.dreamana.controls.skins.ScrollerSkin;
+	import com.dreamana.gui.SkinnableComponent;
 	import com.dreamana.gui.UIComponent;
 	
 	import flash.display.DisplayObject;
@@ -11,7 +13,7 @@ package com.dreamana.controls
 	import flash.geom.ColorTransform;
 	import flash.geom.Rectangle;
 	
-	public class Scroller extends UIComponent
+	public class Scroller extends SkinnableComponent
 	{
 		public var hscrollbar:ScrollBar;
 		public var vscrollbar:ScrollBar;
@@ -25,14 +27,17 @@ package com.dreamana.controls
 			//default setting
 			_width = 100;
 			_height = 100;
+			_skinClass = ScrollerSkin;
 			
 			//view
 			this.addChildren();
-			this.redraw();
+			//this.redraw();
 		}
 		
-		protected function addChildren():void
+		override protected function addChildren():void
 		{
+			super.addChildren();//
+			
 			_container = new Container();
 			_containerMask = new Shape();
 			
@@ -63,16 +68,30 @@ package com.dreamana.controls
 			g.beginFill(0x0);
 			g.drawRect(0, 0, _width, _height);
 			g.endFill();
-									
+						
+			//reset scrollbar position and size
+			readjustScrollBars();
+			
+			//reset content position
+			positionContent();
+			
+			//draw dogear
 			var dogearWidth:int = vscrollbar.width;
 			var dogearHeight:int = hscrollbar.height;
 			g = dogear.graphics;
 			g.clear();
-			g.beginFill(0xffffff);
-			g.drawRect(0, 0, dogearWidth, dogearHeight);
-			g.endFill();
+			
+			if(vscrollbar.visible && hscrollbar.visible) {
+				g.beginFill(0xffffff);
+				g.drawRect(0, 0, dogearWidth, dogearHeight);
+				g.endFill();
+			}
 			
 			if(_dragDogear) {
+				g.beginFill(0xffffff);
+				g.drawRect(0, 0, dogearWidth, dogearHeight);
+				g.endFill();
+				
 				g.lineStyle(1, 0x999999);
 				g.moveTo(dogearWidth*3/4 +0.5, dogearHeight/4 +0.5);
 				g.lineTo(dogearWidth/4 +0.5, dogearHeight*3/4 +0.5);
@@ -92,12 +111,6 @@ package com.dreamana.controls
 			
 			dogear.x = _width - dogear.width;
 			dogear.y = _height - dogear.height;
-			
-			//reset scrollbar position and size
-			readjustScrollBars();
-						
-			//reset content position
-			positionContent();
 		}
 		
 		protected function readjustScrollBars():void
@@ -108,36 +121,70 @@ package com.dreamana.controls
 			vscrollbar.x = _width - vscrollbar.width;
 			
 			var hPercent:Number, vPercent:Number;
-			if(_container.width >= _width - vscrollbar.width) {
-				hPercent = (_width - vscrollbar.width) / _container.width;
-			}
-			else {
-				hPercent = 1.0;
-			}
-			
-			if(_container.height >= _height - hscrollbar.height) {
-				vPercent = (_height - hscrollbar.height) / _container.height;
-			}
-			else {
-				vPercent = 1.0;
-			}
 			
 			if(_autoHideScrollBar) {
 				//auto hide
-				if(hPercent == 1.0 && vPercent < 1.0) {
-					vPercent = _height / _container.height;
-					
-					if(!_dragDogear) vscrollbar.height = _height;
+				var hOverflow:Boolean = _container.width > _width;
+				var vOverflow:Boolean = _container.height > _height;
+				var hInnerOverflow:Boolean = _container.width > _width - vscrollbar.width;
+				var vInnerOverflow:Boolean = _container.height > _height - hscrollbar.height;
+								
+				if(hOverflow && vOverflow) {
+					hPercent = (_width - vscrollbar.width) / _container.width;
+					vPercent = (_height - hscrollbar.height) / _container.height;
 				}
-				else if(vPercent == 1.0 && hPercent < 1.0) {
-					hPercent = _width / _container.width;
-					
-					if(!_dragDogear) hscrollbar.width = _width;
+				else if(hOverflow && !vOverflow) {
+					if(vInnerOverflow) {
+						hPercent = (_width - vscrollbar.width) / _container.width;
+						vPercent = (_height - hscrollbar.height) / _container.height;
+					}
+					else {
+						hPercent = _width / _container.width;
+						vPercent = 1.0;
+					}
 				}
+				else if(!hOverflow && vOverflow) {
+					if(hInnerOverflow) {
+						hPercent = (_width - vscrollbar.width) / _container.width;
+						vPercent = (_height - hscrollbar.height) / _container.height;
+					}
+					else {
+						hPercent = 1.0;
+						vPercent = _height / _container.height;
+					}
+				}
+				else {
+					hPercent = 1.0;
+					vPercent = 1.0;
+				}
+				
 				hscrollbar.visible = (hPercent < 1.0);
 				vscrollbar.visible = (vPercent < 1.0);
+				
+				if(!_dragDogear) {
+					if(!vscrollbar.visible) hscrollbar.width = _width;
+					if(!hscrollbar.visible) vscrollbar.height = _height;
+				}
 			}
 			else {
+				//always show
+				hInnerOverflow = _container.width > _width - vscrollbar.width;
+				vInnerOverflow = _container.height > _height - hscrollbar.height;
+								
+				if(hInnerOverflow) {
+					hPercent = (_width - vscrollbar.width) / _container.width;
+				}
+				else {
+					hPercent = 1.0;
+				}
+				
+				if(vInnerOverflow) {
+					vPercent = (_height - hscrollbar.height) / _container.height;
+				}
+				else {
+					vPercent = 1.0;
+				}
+				
 				if(!hscrollbar.visible) hscrollbar.visible = true;
 				if(!vscrollbar.visible) vscrollbar.visible = true;
 			}

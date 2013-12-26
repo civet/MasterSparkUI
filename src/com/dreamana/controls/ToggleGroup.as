@@ -34,6 +34,17 @@ package com.dreamana.controls
 				_items.splice(index, 1);
 			
 				item.removeEventListener(MouseEvent.CLICK, onItemClick);
+				
+				//clear selected
+				item.selected = false;
+				
+				if(_selectedItem && _selectedItem == item) {
+					_selectedItem = null;
+				}
+				if(_selectedItems.length > 0) {
+					index = _selectedItems.indexOf(item);
+					if(index >= 0) _selectedItems.splice(index, 1);
+				}
 			}
 		}
 		
@@ -44,7 +55,14 @@ package com.dreamana.controls
 			while(i--) {
 				item = _items[i];
 				item.removeEventListener(MouseEvent.CLICK, onItemClick);
+				
+				//clear selected
+				item.selected = false;
 			}
+			
+			//clear selected
+			_selectedItem = null;
+			_selectedItems.length = 0;
 			
 			var removed:Array = _items.concat();
 			_items.length = 0;

@@ -1,6 +1,7 @@
 package com.dreamana.controls
 {	
 	import com.dreamana.controls.layouts.VBoxLayout;
+	import com.dreamana.gui.SkinnableComponent;
 	import com.dreamana.gui.UIComponent;
 	import com.dreamana.gui.UISkin;
 	
@@ -10,6 +11,9 @@ package com.dreamana.controls
 	public class List extends UIComponent
 	{
 		protected var _itemClass:Class;
+		protected var _itemWidth:int;
+		protected var _itemHeight:int;
+		
 		protected var _group:ToggleGroup;
 		protected var _layout:VBoxLayout;
 		
@@ -20,12 +24,14 @@ package com.dreamana.controls
 		{
 			//default setting
 			_itemClass = ListItem;
+			_itemWidth = 100;
+			_itemHeight = 20;
 			
 			_group = new ToggleGroup();
 			
 			_layout = new VBoxLayout();
 		}
-		
+				
 		protected function removeAllItems():void
 		{
 			//remove from group
@@ -52,7 +58,7 @@ package com.dreamana.controls
 						
 			//add new items
 			var item:ListItem;
-			var num:int = _listData.length;
+			var num:int = _listData ? _listData.length : 0;
 			for(var i:int = 0; i < num; ++i)
 			{
 				var itemData:Object = _listData[i];
@@ -62,11 +68,23 @@ package com.dreamana.controls
 				
 				//reset object
 				item.reset( itemData );
+				item.setSize( _itemWidth, _itemHeight );
 				
 				_group.addItem(item);
 				_layout.addElement(item);
 				this.addChild(item);
 			}
+		}
+		
+		protected function refresh():void
+		{
+			var w:int = _layout.width;
+			var h:int = _layout.height;
+			
+			//update
+			this.redraw();
+			
+			if(w != _layout.width || h != _layout.height) this.dispatchEvent(new Event(Event.RESIZE));
 		}
 		
 		public function setItemRenderer(value:Class):void
@@ -77,13 +95,8 @@ package com.dreamana.controls
 			removeAllItems();
 			_itemPool.length = 0;
 			
-			var w:int = _layout.width;
-			var h:int = _layout.height;
-			
 			//update
-			this.redraw();
-			
-			if(w != _layout.width || h != _layout.height) this.dispatchEvent(new Event(Event.RESIZE));
+			refresh();
 		}
 				
 		//--- Object Pool ----		
@@ -108,19 +121,6 @@ package com.dreamana.controls
 			_group.enabled = false;
 		}
 		
-		public function get data():Array { return _listData; }
-		public function set data(value:Array):void
-		{
-			_listData = value;
-			
-			var w:int = _layout.width;
-			var h:int = _layout.height;
-			
-			this.redraw();
-			
-			if(w != _layout.width || h != _layout.height) this.dispatchEvent(new Event(Event.RESIZE));
-		}
-		
 		override public function get width():Number { return _layout.width; }
 		override public function set width(value:Number):void {
 			_layout.width = value;
@@ -130,5 +130,32 @@ package com.dreamana.controls
 		override public function set height(value:Number):void {
 			_layout.height = value;
 		}
+		
+		public function get itemWidth():int { return _itemWidth; }
+		public function set itemWidth(value:int):void {
+			_itemWidth = value;
+			
+			//update
+			refresh();
+		}
+		
+		public function get itemHeight():int { return _itemHeight; }
+		public function set itemHeight(value:int):void {
+			_itemHeight = value;
+			
+			//update
+			refresh();
+		}
+		
+		public function get data():Array { return _listData; }
+		public function set data(value:Array):void
+		{
+			_listData = value;
+			
+			//update
+			refresh();
+		}
+		
+		public function get group():ToggleGroup { return _group; }
 	}
 }
