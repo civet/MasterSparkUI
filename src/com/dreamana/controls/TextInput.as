@@ -98,6 +98,10 @@ package com.dreamana.controls
 		{
 			super.enabled = value;
 			
+			//textfield enabled | disabled
+			_textfield.mouseEnabled = value;
+			_textfield.tabEnabled = value;
+			
 			//enabled | disabled state
 			if(value) changeState( STATE_NORMAL );
 			else changeState( STATE_DISABLED );

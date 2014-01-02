@@ -166,7 +166,7 @@ package com.dreamana.controls
 		//--- Event Handlers ---
 				
 		protected function onTextChange(event:Event):void
-		{
+		{			
 			var content:String = input.text;
 			var keyword:String;
 			if(multipleValuesEnabled) {
@@ -243,12 +243,27 @@ package com.dreamana.controls
 						focusOn( input.textField );
 					}
 					break;
+				
+				case Keyboard.ESCAPE:
+					closeList();
+					focusOn( input.textField );
+					break;
 			}
 						
 			
 		}
 				
 		//--- Getter/setters ---
+		
+		override public function set enabled(value:Boolean):void
+		{
+			super.enabled = value;
+			
+			//enabled | disabled state
+			input.enabled = _enabled;
+			list.enabled = _enabled;
+			scroller.enabled = _enabled;
+		}
 		
 		public function get data():Array { return _listData; }
 		public function set data(value:Array):void

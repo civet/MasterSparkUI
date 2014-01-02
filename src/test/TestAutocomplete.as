@@ -1,6 +1,7 @@
 package test
 {
 	import com.dreamana.controls.Autocomplete;
+	import com.dreamana.controls.ComboBox;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -49,6 +50,7 @@ package test
 			];
 			
 			var autocomplete:Autocomplete = new Autocomplete();
+			//var autocomplete:ComboBox = new ComboBox();
 			this.addChild(autocomplete);
 			
 			autocomplete.setSize(240, 20);
