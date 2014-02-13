@@ -100,9 +100,9 @@ package test
 				case "buttonSkinning":
 					var skin:TextInputTextureSkin = new TextInputTextureSkin();
 					
-					var clip0:UITextureClip = new UITextureClip(new Rectangle(2, 2, 40, 20));
+					var clip0:UITextureProvider = new UITextureProvider(new Rectangle(2, 2, 40, 20));
 					
-					skin.setStyle("background-9grid", new Rectangle(5, 5, 40-10, 20-10));
+					skin.setStyle("background-9slice", new Rectangle(5, 5, 40-10, 20-10));
 					skin.setStyleAsync("background-image", clip0);
 					
 					skin.setStyle("padding", 4);

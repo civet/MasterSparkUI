@@ -33,7 +33,8 @@ package
 			//this.addChild(new TestAccordion());
 			//this.addChild(new TestProgressBar());
 			//this.addChild(new TestList());
-			this.addChild(new TestAutocomplete());
+			//this.addChild(new TestAutocomplete());
+			this.addChild(new TestSpritesheet());
 		}
 	}
 }

@@ -17,9 +17,9 @@ package com.dreamana.controls.skins
 		
 		//texture
 		protected var _trackTexture:BitmapData;
-		protected var _trackScale9Grid:Rectangle;
+		protected var _trackSlice9:Rectangle;
 		protected var _handleTexture:BitmapData;
-		protected var _handleScale9Grid:Rectangle;
+		protected var _handleSlice9:Rectangle;
 		protected var _normalFilters:Array;
 		protected var _disabledFilters:Array;
 		
@@ -53,14 +53,14 @@ package com.dreamana.controls.skins
 			if(_trackTexture) {
 				g = _track.graphics;
 				g.clear();
-				if(_trackScale9Grid) fill9Grid(g, _trackTexture, getRectangle(0,0,w,h), _trackScale9Grid, false );
+				if(_trackSlice9) fill9Grid(g, _trackTexture, getRectangle(0,0,w,h), _trackSlice9, false );
 				else fillBitmap(g, _trackTexture, getRectangle(0,0,w,h) );
 			}
 			
 			if(_handleTexture) {
 				g = _handle.graphics;
 				g.clear();
-				if(_handleScale9Grid) fill9Grid(g, _handleTexture, getRectangle(0, 0, handleWidth, handleHeight), _handleScale9Grid, false );
+				if(_handleSlice9) fill9Grid(g, _handleTexture, getRectangle(0, 0, handleWidth, handleHeight), _handleSlice9, false );
 				else fillBitmap(g, _handleTexture, getRectangle(0, 0, handleWidth, handleHeight) );
 			}
 			
@@ -87,8 +87,8 @@ package com.dreamana.controls.skins
 					invalidate();
 					break;
 				
-				case "track-9grid":
-					_trackScale9Grid = value as Rectangle;
+				case "track-9slice":
+					_trackSlice9 = value as Rectangle;
 					invalidate();
 					break;
 				
@@ -97,8 +97,8 @@ package com.dreamana.controls.skins
 					invalidate();
 					break;
 				
-				case "handle-9grid":
-					_handleScale9Grid = value as Rectangle;
+				case "handle-9slice":
+					_handleSlice9 = value as Rectangle;
 					invalidate();
 					break;
 			}

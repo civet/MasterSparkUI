@@ -117,12 +117,12 @@ package test
 				case "buttonSkinning":
 					var skin:ToggleButtonTextureSkin = new ToggleButtonTextureSkin();
 					
-					var clip0:UITextureClip = new UITextureClip(new Rectangle(2, 2, 40, 20));
-					var clip1:UITextureClip = new UITextureClip(new Rectangle(2, 46, 22, 22));
+					var clip0:UITextureProvider = new UITextureProvider(new Rectangle(2, 2, 40, 20));
+					var clip1:UITextureProvider = new UITextureProvider(new Rectangle(2, 46, 22, 22));
 					
-					skin.setStyle("normal-9grid", new Rectangle(5, 5, 40-10, 20-10));
+					skin.setStyle("normal-9slice", new Rectangle(5, 5, 40-10, 20-10));
 					skin.setStyleAsync("normal-image", clip0);
-					skin.setStyle("down-9grid", new Rectangle(5, 5, 22-10, 22-10));
+					skin.setStyle("down-9slice", new Rectangle(5, 5, 22-10, 22-10));
 					skin.setStyleAsync("down-image", clip1);
 					
 					//var texture:BitmapData = new ImageUI().bitmapData;

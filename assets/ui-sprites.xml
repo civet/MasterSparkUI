@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:dc463753b649cc381644f94df5b4f4f9$ -->
+<TextureAtlas imagePath="ui.png">
+    <SubTexture name="bg" x="2" y="70" width="20" height="20"/>
+    <SubTexture name="button" x="2" y="24" width="40" height="20"/>
+    <SubTexture name="face" x="26" y="46" width="22" height="22"/>
+    <SubTexture name="input" x="2" y="2" width="40" height="20"/>
+    <SubTexture name="shadow" x="2" y="46" width="22" height="22"/>
+</TextureAtlas>

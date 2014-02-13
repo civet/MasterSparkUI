@@ -4,7 +4,7 @@ package test
 	import com.dreamana.controls.Spinner;
 	import com.dreamana.controls.TextInput;
 	import com.dreamana.controls.skins.SpinnerTextureSkin;
-	import com.dreamana.gui.UITextureClip;
+	import com.dreamana.gui.UITextureProvider;
 	
 	import flash.display.Loader;
 	import flash.display.Sprite;
@@ -65,17 +65,17 @@ package test
 		{
 			var skin:SpinnerTextureSkin = new SpinnerTextureSkin();
 			
-			var clip0:UITextureClip = new UITextureClip(new Rectangle(2, 2, 40, 20));
-			var clip1:UITextureClip = new UITextureClip(new Rectangle(2, 46, 22, 22));
+			var clip0:UITextureProvider = new UITextureProvider(new Rectangle(2, 2, 40, 20));
+			var clip1:UITextureProvider = new UITextureProvider(new Rectangle(2, 46, 22, 22));
 			
-			skin.setStyle("increment-normal-9grid", new Rectangle(5, 5, 40-10, 20-10));
+			skin.setStyle("increment-normal-9slice", new Rectangle(5, 5, 40-10, 20-10));
 			skin.setStyleAsync("increment-normal-image", clip0);
-			skin.setStyle("increment-down-9grid", new Rectangle(5, 5, 22-10, 22-10));
+			skin.setStyle("increment-down-9slice", new Rectangle(5, 5, 22-10, 22-10));
 			skin.setStyleAsync("increment-down-image", clip1);
 			
-			skin.setStyle("decrement-normal-9grid", new Rectangle(5, 5, 40-10, 20-10));
+			skin.setStyle("decrement-normal-9slice", new Rectangle(5, 5, 40-10, 20-10));
 			skin.setStyleAsync("decrement-normal-image", clip0);
-			skin.setStyle("decrement-down-9grid", new Rectangle(5, 5, 22-10, 22-10));
+			skin.setStyle("decrement-down-9slice", new Rectangle(5, 5, 22-10, 22-10));
 			skin.setStyleAsync("decrement-down-image", clip1);
 			
 			spinner.skin = skin;

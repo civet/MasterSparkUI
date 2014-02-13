@@ -18,9 +18,9 @@ package com.dreamana.controls.skins
 		
 		//texture
 		protected var _normalTexture:BitmapData;
-		protected var _normalScale9Grid:Rectangle;
+		protected var _normalSlice9:Rectangle;
 		protected var _downTexture:BitmapData;
-		protected var _downScale9Grid:Rectangle;
+		protected var _downSlice9:Rectangle;
 		protected var _faceFilters0:Array;
 		protected var _faceFilters1:Array;
 		
@@ -52,7 +52,7 @@ package com.dreamana.controls.skins
 					if(_downTexture) {
 						g = _face.graphics;
 						g.clear();
-						if(_downScale9Grid) fill9Grid( g, _downTexture, getRectangle(0,0,w,h), _downScale9Grid, false);
+						if(_downSlice9) fill9Grid( g, _downTexture, getRectangle(0,0,w,h), _downSlice9, false);
 						else fillBitmap(g, _downTexture, getRectangle(0,0,w,h) );
 					}			
 					_face.filters = _faceFilters0;
@@ -62,7 +62,7 @@ package com.dreamana.controls.skins
 					if(_normalTexture) {
 						g = _face.graphics;
 						g.clear();
-						if(_normalScale9Grid) fill9Grid( g, _normalTexture, getRectangle(0,0,w,h), _normalScale9Grid, false);
+						if(_normalSlice9) fill9Grid( g, _normalTexture, getRectangle(0,0,w,h), _normalSlice9, false);
 						else fillBitmap(g, _normalTexture, getRectangle(0,0,w,h) );
 					}
 					_face.filters = _faceFilters1;
@@ -74,7 +74,7 @@ package com.dreamana.controls.skins
 					if(_normalTexture) {
 						g = _face.graphics;
 						g.clear();
-						if(_normalScale9Grid) fill9Grid( g, _normalTexture, getRectangle(0,0,w,h), _normalScale9Grid, false);
+						if(_normalSlice9) fill9Grid( g, _normalTexture, getRectangle(0,0,w,h), _normalSlice9, false);
 						else fillBitmap(g, _normalTexture, getRectangle(0,0,w,h) );
 					}
 					_face.filters = _faceFilters0;
@@ -91,8 +91,8 @@ package com.dreamana.controls.skins
 					invalidate();
 					break;
 				
-				case "normal-9grid":
-					_normalScale9Grid = value as Rectangle;
+				case "normal-9slice":
+					_normalSlice9 = value as Rectangle;
 					invalidate();
 					break;
 				
@@ -101,8 +101,8 @@ package com.dreamana.controls.skins
 					invalidate();
 					break;
 				
-				case "down-9grid":
-					_downScale9Grid = value as Rectangle;
+				case "down-9slice":
+					_downSlice9 = value as Rectangle;
 					invalidate();
 					break;
 				
@@ -110,7 +110,7 @@ package com.dreamana.controls.skins
 					//TODO:
 					break;
 				
-				case "over-9grid":
+				case "over-9slice":
 					//TODO:
 					break;
 			}

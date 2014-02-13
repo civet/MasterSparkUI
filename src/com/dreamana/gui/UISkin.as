@@ -4,6 +4,7 @@ package com.dreamana.gui
 	
 	import flash.display.BitmapData;
 	import flash.display.Graphics;
+	import flash.events.Event;
 	import flash.filters.DropShadowFilter;
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
@@ -103,11 +104,11 @@ package com.dreamana.gui
 		 */
 		public function setStyleAsync(style:String, value:Object):void
 		{
-			var provider:UITextureProvider = value as UITextureProvider;
+			var provider:UIAsyncProvider = value as UIAsyncProvider;
 			if(provider) {
-				_styleMapAsync[style] = value;
+				_styleMapAsync[style] = provider;
 				
-				provider.addUpdateHandler(onTextureUpdate);
+				provider.addUpdateHandler(onProviderUpdate);
 			}
 			else {
 				this.setStyle(style, value);
@@ -116,8 +117,10 @@ package com.dreamana.gui
 		
 		//--- Event Handlers ---
 		
-		private function onTextureUpdate(provider:UITextureProvider):void
+		private function onProviderUpdate(event:Event):void
 		{
+			var provider:UIAsyncProvider = event.currentTarget as UIAsyncProvider;
+			
 			for(var style:String in _styleMapAsync)
 			{
 				if(_styleMapAsync[style] == provider)

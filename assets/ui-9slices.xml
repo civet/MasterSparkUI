@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Slice9 imagePath="ui.png">
+    <Rectage name="bg" />
+    <Rectage name="button" />
+    <Rectage name="face" />
+    <Rectage name="input" x="5" y="5" width="30" height="10"/>
+    <Rectage name="shadow" x="5" y="5" width="12" height="12"/>
+</Slice9>

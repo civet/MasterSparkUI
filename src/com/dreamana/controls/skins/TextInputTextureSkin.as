@@ -23,7 +23,7 @@ package com.dreamana.controls.skins
 		
 		//texture
 		protected var _backTexture:BitmapData;
-		protected var _backScale9Grid:Rectangle;
+		protected var _backSlice9:Rectangle;
 		protected var _backFilters0:Array;
 		protected var _backFilters1:Array;
 		protected var _padding:Object;
@@ -66,7 +66,7 @@ package com.dreamana.controls.skins
 			if(_backTexture) {
 				g = _back.graphics;
 				g.clear();
-				if(_backScale9Grid) fill9Grid( g, _backTexture, getRectangle(0,0,w,h), _backScale9Grid, false);
+				if(_backSlice9) fill9Grid( g, _backTexture, getRectangle(0,0,w,h), _backSlice9, false);
 				else fillBitmap(g, _backTexture, getRectangle(0,0,w,h) );
 			}
 			
@@ -116,8 +116,8 @@ package com.dreamana.controls.skins
 					invalidate();
 					break;
 				
-				case "background-9grid":
-					_backScale9Grid = value as Rectangle;
+				case "background-9slice":
+					_backSlice9 = value as Rectangle;
 					invalidate();
 					break;
 				
